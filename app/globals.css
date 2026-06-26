@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  --nfc-red: #e11900;
+  --nfc-dark: #16140f;
+  --nfc-bg: #faf9f7;
+  --nfc-outer: #e9e6e1;
+  --nfc-red-light: #fdece9;
+  --nfc-border: #e7e4df;
+  --nfc-muted: #6b6660;
+  --nfc-subtle: #8a857c;
+}
+
+@theme inline {
+  --color-nfc-red: var(--nfc-red);
+  --color-nfc-dark: var(--nfc-dark);
+  --color-nfc-bg: var(--nfc-bg);
+  --color-nfc-outer: var(--nfc-outer);
+  --color-nfc-red-light: var(--nfc-red-light);
+  --color-nfc-border: var(--nfc-border);
+  --color-nfc-muted: var(--nfc-muted);
+  --color-nfc-subtle: var(--nfc-subtle);
+}
+
+body {
+  background: var(--nfc-bg);
+  color: var(--nfc-dark);
+  font-family: 'Archivo', sans-serif;
+}
+
+@keyframes scanpulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+
+@keyframes ring {
+  0% { box-shadow: 0 0 0 0 rgba(225, 29, 0, 0.45); }
+  100% { box-shadow: 0 0 0 16px rgba(225, 29, 0, 0); }
+}
+
+.animate-scanpulse { animation: scanpulse 1.4s ease-in-out infinite; }
+.animate-ring { animation: ring 2s ease-out infinite; }
+
+input, select, textarea {
+  font-family: 'Archivo', sans-serif;
+}
