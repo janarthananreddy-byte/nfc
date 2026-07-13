@@ -22,12 +22,12 @@ export async function PUT(req: Request) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { firstName, lastName, age, cyclingType, clubName, clubId, bloodType, photoUrl } = body;
+  const { firstName, lastName, age, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl } = body;
 
   const profile = await prisma.profile.upsert({
     where: { userId: session.user.id },
-    update: { firstName, lastName, age: age ? parseInt(age) : null, cyclingType, clubName, clubId, bloodType, photoUrl },
-    create: { userId: session.user.id, firstName, lastName, age: age ? parseInt(age) : null, cyclingType, clubName, clubId, bloodType, photoUrl },
+    update: { firstName, lastName, age: age ? parseInt(age) : null, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl },
+    create: { userId: session.user.id, firstName, lastName, age: age ? parseInt(age) : null, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl },
   });
 
   return NextResponse.json(profile);

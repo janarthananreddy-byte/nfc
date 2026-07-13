@@ -77,6 +77,20 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
             </div>
           </div>
 
+          {/* Club Contact */}
+          {(p.clubContactName || p.clubContactPhone) && (
+            <div style={{ margin: "16px 24px 0", padding: "14px 18px", border: "1.5px solid #e7e4df", borderRadius: "18px", background: "#fff" }}>
+              <div style={{ font: "700 10px 'Space Mono',monospace", letterSpacing: ".14em", color: "#6b6660", marginBottom: "8px" }}>CLUB CONTACT</div>
+              {p.clubContactName && <div style={{ font: "700 15px 'Archivo',sans-serif", color: "#16140f" }}>{p.clubContactName}</div>}
+              {p.clubContactPhone && (
+                <a href={`tel:${p.clubContactPhone}`} style={{ display: "block", font: "500 13px 'Space Mono',monospace", color: "#e11900", marginTop: "4px", textDecoration: "none" }}>{p.clubContactPhone}</a>
+              )}
+              {p.clubContactEmail && (
+                <a href={`mailto:${p.clubContactEmail}`} style={{ display: "block", font: "500 12px 'Archivo',sans-serif", color: "#6b6660", marginTop: "2px", textDecoration: "none" }}>{p.clubContactEmail}</a>
+              )}
+            </div>
+          )}
+
           {/* Blood type */}
           {p.bloodType && (
             <div style={{ margin: "22px 24px 0", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", border: "2px solid #e11900", borderRadius: "18px", background: "#fff" }}>

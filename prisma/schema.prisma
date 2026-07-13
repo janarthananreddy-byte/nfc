@@ -28,9 +28,12 @@ model Profile {
   lastName    String   @default("")
   age         Int?
   cyclingType String   @default("Road cyclist")
-  clubName    String   @default("")
-  clubId      String   @default("")
-  bloodType   String   @default("")
+  clubName         String @default("")
+  clubId           String @default("")
+  clubContactName  String @default("")
+  clubContactPhone String @default("")
+  clubContactEmail String @default("")
+  bloodType        String @default("")
   photoUrl    String?
   updatedAt   DateTime @updatedAt
 
