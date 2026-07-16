@@ -5,10 +5,6 @@
  */
 
 import { createClient } from "@libsql/client";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-const bcrypt = require("bcryptjs");
 
 console.log("NFC Emergency ID — Setup\n");
 
@@ -21,7 +17,6 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE IF NOT EXISTS "User" (
   "id"        TEXT     NOT NULL PRIMARY KEY,
   "email"     TEXT     NOT NULL,
-  "password"  TEXT     NOT NULL,
   "role"      TEXT     NOT NULL DEFAULT 'user',
   "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -95,16 +90,14 @@ CREATE TABLE IF NOT EXISTS "NfcTap" (
   FOREIGN KEY ("tagId") REFERENCES "NfcTag"("id") ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "PasswordResetToken" (
+CREATE TABLE IF NOT EXISTS "OtpToken" (
   "id"        TEXT     NOT NULL PRIMARY KEY,
-  "userId"    TEXT     NOT NULL,
-  "token"     TEXT     NOT NULL,
+  "email"     TEXT     NOT NULL,
+  "otp"       TEXT     NOT NULL,
   "expiresAt" DATETIME NOT NULL,
   "used"      INTEGER  NOT NULL DEFAULT 0,
-  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-CREATE UNIQUE INDEX IF NOT EXISTS "PasswordResetToken_token_key" ON "PasswordResetToken"("token");
 `);
 console.log("✓ Database schema ready");
 
@@ -115,13 +108,12 @@ const { rows } = await client.execute({
 });
 
 if (rows.length === 0) {
-  const hash = await bcrypt.hash("Admin@123", 12);
-  const now  = new Date().toISOString();
+  const now = new Date().toISOString();
 
   await client.batch([
     {
-      sql:  "INSERT OR IGNORE INTO User (id, email, password, role, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)",
-      args: ["admin001", "admin@nfctag.com", hash, "admin", now, now],
+      sql:  "INSERT OR IGNORE INTO User (id, email, role, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)",
+      args: ["admin001", "admin@nfctag.com", "admin", now, now],
     },
     {
       sql:  "INSERT OR IGNORE INTO Profile (id, userId, firstName, lastName, cyclingType, updatedAt) VALUES (?, ?, ?, ?, ?, ?)",
@@ -134,8 +126,8 @@ if (rows.length === 0) {
   ], "write");
 
   console.log("✓ Admin user created");
-  console.log("  Email   : admin@nfctag.com");
-  console.log("  Password: Admin@123");
+  console.log("  Email : admin@nfctag.com");
+  console.log("  Login : OTP sent to email on first sign-in");
 } else {
   console.log("✓ Admin user already exists");
 }

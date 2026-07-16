@@ -1,43 +1,40 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { sendOtpEmail } from "@/lib/mailer";
+
+function generateOtp() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 export async function POST(req: Request) {
   try {
-    const { email, password, firstName, lastName } = await req.json();
+    const { email, firstName, lastName } = await req.json();
 
-    if (!email || !password) {
-      return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
-    }
-
-    if (password.length < 8) {
-      return NextResponse.json({ error: "Password must be at least 8 characters" }, { status: 400 });
-    }
+    if (!email) return NextResponse.json({ error: "Email is required" }, { status: 400 });
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
-      return NextResponse.json({ error: "Email already registered" }, { status: 409 });
+      return NextResponse.json({ error: "Email already registered. Please sign in instead." }, { status: 409 });
     }
 
-    const hashed = await bcrypt.hash(password, 12);
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         email,
-        password: hashed,
         role: "user",
-        profile: {
-          create: {
-            firstName: firstName || "",
-            lastName: lastName || "",
-          },
-        },
-        nfcTag: {
-          create: {},
-        },
+        profile: { create: { firstName: firstName || "", lastName: lastName || "" } },
+        nfcTag:  { create: {} },
       },
     });
 
-    return NextResponse.json({ id: user.id, email: user.email }, { status: 201 });
+    // Invalidate old OTPs and send a fresh one
+    await prisma.otpToken.updateMany({ where: { email, used: false }, data: { used: true } });
+    const otp = generateOtp();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    await prisma.otpToken.create({ data: { email, otp, expiresAt } });
+
+    await sendOtpEmail(email, otp);
+
+    return NextResponse.json({ ok: true }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

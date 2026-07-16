@@ -10,15 +10,13 @@ datasource db {
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String
   role      String   @default("user")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  profile              Profile?
-  shippingAddresses    ShippingAddress[]
-  nfcTag               NfcTag?
-  passwordResetTokens  PasswordResetToken[]
+  profile           Profile?
+  shippingAddresses ShippingAddress[]
+  nfcTag            NfcTag?
 }
 
 model Profile {
@@ -92,11 +90,10 @@ model NfcTap {
   tappedAt DateTime @default(now())
 }
 
-model PasswordResetToken {
+model OtpToken {
   id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token     String   @unique @default(cuid())
+  email     String
+  otp       String
   expiresAt DateTime
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
