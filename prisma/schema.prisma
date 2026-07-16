@@ -15,9 +15,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  profile           Profile?
-  shippingAddresses ShippingAddress[]
-  nfcTag            NfcTag?
+  profile              Profile?
+  shippingAddresses    ShippingAddress[]
+  nfcTag               NfcTag?
+  passwordResetTokens  PasswordResetToken[]
 }
 
 model Profile {
@@ -89,4 +90,14 @@ model NfcTap {
   userAgent String @default("")
 
   tappedAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique @default(cuid())
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
 }

@@ -70,6 +70,11 @@ export default function LoginPage() {
                 className="w-full px-4 py-3 rounded-xl border border-nfc-border bg-nfc-bg text-nfc-dark text-sm focus:outline-none focus:border-nfc-red focus:ring-2 focus:ring-nfc-red/10 transition-colors"
               />
             </div>
+            <div className="flex justify-end">
+              <Link href="/forgot-password" className="text-xs text-nfc-red font-semibold hover:underline" style={{ fontFamily: "Space Mono, monospace" }}>
+                Forgot password?
+              </Link>
+            </div>
             <button
               type="submit"
               disabled={loading}
