@@ -98,3 +98,128 @@ model OtpToken {
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+model Setting {
+  key   String @id
+  value String @default("")
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  userId      String
+  quantity    Int      @default(1)
+  unitPrice   Int      @default(0)
+  totalAmount Int      @default(0)
+  fullName    String   @default("")
+  address1    String   @default("")
+  address2    String   @default("")
+  city        String   @default("")
+  state       String   @default("")
+  zipCode     String   @default("")
+  country     String   @default("India")
+  phone       String   @default("")
+  status      String   @default("payment_review")
+  upiTxnId    String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile           Profile?
+  shippingAddresses ShippingAddress[]
+  nfcTag            NfcTag?
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName   String   @default("")
+  lastName    String   @default("")
+  age         Int?
+  cyclingType String   @default("Road cyclist")
+  clubName         String @default("")
+  clubId           String @default("")
+  clubContactName  String @default("")
+  clubContactPhone String @default("")
+  clubContactEmail String @default("")
+  bloodType        String @default("")
+  photoUrl    String?
+  updatedAt   DateTime @updatedAt
+
+  contacts EmergencyContact[]
+}
+
+model EmergencyContact {
+  id           String  @id @default(cuid())
+  profileId    String
+  profile      Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  name         String
+  relationship String
+  phone        String
+  isPrimary    Boolean @default(false)
+  sortOrder    Int     @default(0)
+
+  createdAt DateTime @default(now())
+}
+
+model ShippingAddress {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName  String
+  address1  String
+  address2  String  @default("")
+  city      String
+  state     String
+  zipCode   String
+  country   String  @default("India")
+  phone     String  @default("")
+  isDefault Boolean @default(true)
+
+  createdAt DateTime @default(now())
+}
+
+model NfcTag {
+  id       String  @id @default(cuid())
+  userId   String  @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tagSlug  String  @unique @default(cuid())
+  isActive Boolean @default(true)
+
+  taps      NfcTap[]
+  createdAt DateTime @default(now())
+}
+
+model NfcTap {
+  id        String @id @default(cuid())
+  tagId     String
+  tag       NfcTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  ipAddress String @default("")
+  userAgent String @default("")
+
+  tappedAt DateTime @default(now())
+}
+
+model OtpToken {
+  id        String   @id @default(cuid())
+  email     String
+  otp       String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
