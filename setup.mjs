@@ -104,6 +104,17 @@ CREATE TABLE IF NOT EXISTS "Setting" (
   "value" TEXT NOT NULL DEFAULT ''
 );
 
+CREATE TABLE IF NOT EXISTS "AuditLog" (
+  "id"          TEXT     NOT NULL PRIMARY KEY,
+  "actorEmail"  TEXT     NOT NULL DEFAULT '',
+  "action"      TEXT     NOT NULL,
+  "targetType"  TEXT     NOT NULL DEFAULT '',
+  "targetId"    TEXT     NOT NULL DEFAULT '',
+  "targetLabel" TEXT     NOT NULL DEFAULT '',
+  "details"     TEXT     NOT NULL DEFAULT '',
+  "createdAt"   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS "Order" (
   "id"          TEXT     NOT NULL PRIMARY KEY,
   "orderNo"     TEXT     NOT NULL DEFAULT '',
