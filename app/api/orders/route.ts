@@ -8,6 +8,20 @@ async function getTagPrice(): Promise<number> {
   return row ? Number(row.value) || 0 : 499;
 }
 
+async function nextOrderNo(): Promise<string> {
+  const year = new Date().getFullYear();
+  const last = await prisma.order.findFirst({
+    where: { orderNo: { endsWith: `-${year}` } },
+    orderBy: { orderNo: "desc" },
+  });
+  let seq = 1;
+  if (last && last.orderNo) {
+    const n = parseInt(last.orderNo.split("-")[0]);
+    if (!isNaN(n)) seq = n + 1;
+  }
+  return `${String(seq).padStart(5, "0")}-${year}`;
+}
+
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -38,8 +52,11 @@ export async function POST(req: Request) {
   const unitPrice = await getTagPrice();
   const totalAmount = unitPrice * quantity;
 
+  const orderNo = await nextOrderNo();
+
   const order = await prisma.order.create({
     data: {
+      orderNo,
       userId: session.user.id,
       quantity,
       unitPrice,
