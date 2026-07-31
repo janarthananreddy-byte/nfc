@@ -5,6 +5,7 @@ import { UserNav } from "@/components/UserNav";
 
 interface Order {
   id: string;
+  orderNo: string;
   quantity: number;
   unitPrice: number;
   totalAmount: number;
@@ -31,8 +32,13 @@ const STATUS_STYLE: Record<string, string> = {
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState<Order[] | null>(null);
 
-  useEffect(() => {
+  function load() {
+    setOrders(null);
     fetch("/api/orders").then((r) => r.json()).then((d) => setOrders(Array.isArray(d) ? d : [])).catch(() => setOrders([]));
+  }
+
+  useEffect(() => {
+    load();
   }, []);
 
   return (
@@ -44,7 +50,10 @@ export default function MyOrdersPage() {
             <h1 className="text-2xl font-extrabold text-nfc-dark tracking-tight">My Orders</h1>
             <p className="text-nfc-muted text-sm mt-1">Track your NFC tag orders and payment status</p>
           </div>
-          <Link href="/order" className="px-4 py-2 bg-nfc-red text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-colors">Order My Tag</Link>
+          <div className="flex items-center gap-2">
+            <button onClick={load} title="Refresh" className="px-3 py-2 bg-white border border-nfc-border rounded-xl text-sm font-bold text-nfc-dark hover:bg-nfc-outer transition-colors">↻ Refresh</button>
+            <Link href="/order" className="px-4 py-2 bg-nfc-red text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-colors">Order My Tag</Link>
+          </div>
         </div>
 
         {orders === null ? (
@@ -62,7 +71,7 @@ export default function MyOrdersPage() {
                 <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div>
                     <p className="font-bold text-nfc-dark text-sm">NFC Emergency Tag × {o.quantity}</p>
-                    <p className="text-xs text-nfc-subtle mt-0.5" style={{ fontFamily: "Space Mono, monospace" }}>#{o.id.slice(-8).toUpperCase()} · {new Date(o.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
+                    <p className="text-xs text-nfc-subtle mt-0.5" style={{ fontFamily: "Space Mono, monospace" }}>#{o.orderNo || o.id.slice(-8).toUpperCase()} · {new Date(o.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
                   </div>
                   <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${STATUS_STYLE[o.status] || "bg-nfc-outer text-nfc-muted border-nfc-border"}`}>{STATUS_LABEL[o.status] || o.status}</span>
                 </div>
