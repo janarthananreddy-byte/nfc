@@ -12,12 +12,17 @@ interface Stats {
   dailyTaps: { date: string; count: number }[];
 }
 
+interface DbTable { name: string; rows: number; bytes: number | null; }
+interface DbStats { tables: DbTable[]; totalBytes: number | null; }
+
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
+  const [dbStats, setDbStats] = useState<DbStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/admin/stats").then((r) => r.json()).then((d) => { setStats(d); setLoading(false); });
+    fetch("/api/admin/db-stats").then((r) => r.json()).then((d) => setDbStats(d)).catch(() => {});
   }, []);
 
   const now = new Date();
@@ -76,10 +81,45 @@ export default function AdminDashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+
+          {dbStats && (
+            <div className="bg-white rounded-2xl border border-nfc-border overflow-hidden mt-8">
+              <div className="px-6 py-4 border-b border-nfc-border flex items-center justify-between">
+                <h2 className="font-bold text-nfc-dark text-sm">Database Tables</h2>
+                <span className="text-xs text-nfc-muted">{dbStats.totalBytes != null ? "Total " + fmtBytes(dbStats.totalBytes) : dbStats.tables.length + " tables"}</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-nfc-outer border-b-2 border-nfc-border">
+                      <th className="text-left px-6 py-2.5 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Table</th>
+                      <th className="text-right px-6 py-2.5 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Rows</th>
+                      <th className="text-right px-6 py-2.5 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Size</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dbStats.tables.map((t, i) => (
+                      <tr key={t.name} className={"border-b border-nfc-border/50 " + (i % 2 ? "bg-nfc-outer/40" : "bg-white")}>
+                        <td className="px-6 py-2.5 text-sm font-medium text-nfc-dark" style={{ fontFamily: "Space Mono, monospace" }}>{t.name}</td>
+                        <td className="px-6 py-2.5 text-sm text-nfc-dark text-right">{t.rows.toLocaleString("en-IN")}</td>
+                        <td className="px-6 py-2.5 text-sm text-nfc-muted text-right">{t.bytes != null ? fmtBytes(t.bytes) : "n/a"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
   );
+}
+
+function fmtBytes(b: number) {
+  if (b < 1024) return b + " B";
+  if (b < 1024 * 1024) return (b / 1024).toFixed(1) + " KB";
+  return (b / (1024 * 1024)).toFixed(2) + " MB";
 }
 
 function StatCard({ label, value, sub, icon, red }: { label: string; value: string; sub: string; icon: string; red?: boolean }) {
