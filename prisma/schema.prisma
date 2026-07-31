@@ -106,6 +106,7 @@ model Setting {
 
 model Order {
   id          String   @id @default(cuid())
+  orderNo     String   @default("")
   userId      String
   quantity    Int      @default(1)
   unitPrice   Int      @default(0)
