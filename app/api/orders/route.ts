@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
 
 async function getTagPrice(): Promise<number> {
   const row = await prisma.setting.findUnique({ where: { key: "tag_price" } });
@@ -74,5 +75,14 @@ export async function POST(req: Request) {
     },
   });
 
+
+  await logAudit({
+    actorEmail: session.user.email || "",
+    action: "order_placed",
+    targetType: "order",
+    targetId: order.id,
+    targetLabel: order.orderNo || order.id,
+    details: `Placed order — NFC Tag × ${quantity} · ₹${totalAmount}`,
+  });
   return NextResponse.json(order, { status: 201 });
 }
