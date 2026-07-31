@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface User {
   id: string;
@@ -121,6 +122,12 @@ export default function AdminUsersPage() {
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/admin/users/${u.id}`}
+                          className="px-3 py-1.5 rounded-lg text-xs font-bold bg-nfc-outer text-nfc-dark hover:bg-nfc-border transition-colors"
+                        >
+                          Details
+                        </Link>
                         {u.nfcTag && (
                           <button
                             onClick={() => toggleTag(u.id)}
