@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
 
 const STATUSES = ["payment_review", "confirmed", "shipped", "delivered", "cancelled"];
 
@@ -30,5 +31,13 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
   const updated = await prisma.order.update({ where: { id: orderId }, data: { status } });
+  await logAudit({
+    actorEmail: session.user.email || "",
+    action: "order_status_changed",
+    targetType: "order",
+    targetId: orderId,
+    targetLabel: updated.orderNo || orderId,
+    details: `Order status → ${status}`,
+  });
   return NextResponse.json(updated);
 }
