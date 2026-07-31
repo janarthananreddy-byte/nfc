@@ -132,6 +132,8 @@ CREATE TABLE IF NOT EXISTS "Order" (
   "phone"       TEXT     NOT NULL DEFAULT '',
   "status"      TEXT     NOT NULL DEFAULT 'payment_review',
   "upiTxnId"    TEXT     NOT NULL DEFAULT '',
+  "trackingId"  TEXT     NOT NULL DEFAULT '',
+  "trackingUrl" TEXT     NOT NULL DEFAULT '',
   "createdAt"   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt"   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE
@@ -142,6 +144,16 @@ console.log("✓ Database schema ready");
 // ---------- Migrations (add columns to existing tables) ----------
 try {
   await client.execute("ALTER TABLE \"Order\" ADD COLUMN \"orderNo\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"Order\" ADD COLUMN \"trackingId\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"Order\" ADD COLUMN \"trackingUrl\" TEXT NOT NULL DEFAULT ''");
 } catch {
   // column already exists
 }
