@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
+import { logAudit } from "./audit";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -48,6 +49,14 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as string;
       }
       return session;
+    },
+  },
+  events: {
+    async signIn({ user }) {
+      await logAudit({ actorEmail: user.email || "", action: "user_login", targetType: "user", targetId: user.id || "", targetLabel: user.email || "", details: "Signed in" });
+    },
+    async signOut({ token }) {
+      await logAudit({ actorEmail: (token?.email as string) || "", action: "user_logout", targetType: "user", targetId: (token?.id as string) || "", targetLabel: (token?.email as string) || "", details: "Signed out" });
     },
   },
   pages: {
