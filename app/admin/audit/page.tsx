@@ -12,6 +12,12 @@ const ACTION_LABEL: Record<string, string> = {
   tag_disabled: "Tag disabled",
   user_deleted: "User deleted",
   order_status_changed: "Order status changed",
+  profile_updated: "Profile updated",
+  profile_created: "Profile created",
+  contact_added: "Contact added",
+  contact_updated: "Contact updated",
+  contact_deleted: "Contact deleted",
+  address_updated: "Address updated",
 };
 const ACTION_STYLE: Record<string, string> = {
   tag_url_changed: "bg-blue-50 text-blue-700 border-blue-200",
@@ -19,6 +25,12 @@ const ACTION_STYLE: Record<string, string> = {
   tag_disabled: "bg-amber-50 text-amber-700 border-amber-200",
   user_deleted: "bg-red-50 text-red-700 border-red-200",
   order_status_changed: "bg-indigo-50 text-indigo-700 border-indigo-200",
+  profile_updated: "bg-purple-50 text-purple-700 border-purple-200",
+  profile_created: "bg-purple-50 text-purple-700 border-purple-200",
+  contact_added: "bg-teal-50 text-teal-700 border-teal-200",
+  contact_updated: "bg-teal-50 text-teal-700 border-teal-200",
+  contact_deleted: "bg-red-50 text-red-700 border-red-200",
+  address_updated: "bg-sky-50 text-sky-700 border-sky-200",
 };
 
 export default function AuditLogPage() {
