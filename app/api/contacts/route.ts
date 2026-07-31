@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -39,6 +40,15 @@ export async function POST(req: Request) {
   const count = await prisma.emergencyContact.count({ where: { profileId: profile.id } });
   const contact = await prisma.emergencyContact.create({
     data: { profileId: profile.id, name, relationship, phone, isPrimary: !!isPrimary, sortOrder: count },
+  });
+
+  await logAudit({
+    actorEmail: session.user.email || "",
+    action: "contact_added",
+    targetType: "user",
+    targetId: session.user.id,
+    targetLabel: session.user.email || session.user.id,
+    details: `Added emergency contact ${name} (${relationship}) ${phone}`,
   });
 
   return NextResponse.json(contact, { status: 201 });
