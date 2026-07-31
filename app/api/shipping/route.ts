@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -31,6 +32,15 @@ export async function POST(req: Request) {
 
   const address = await prisma.shippingAddress.create({
     data: { userId: session.user.id, fullName, address1, address2: address2 || "", city, state, zipCode, country: country || "India", phone: phone || "", isDefault: true },
+  });
+
+  await logAudit({
+    actorEmail: session.user.email || "",
+    action: "address_updated",
+    targetType: "user",
+    targetId: session.user.id,
+    targetLabel: session.user.email || session.user.id,
+    details: `Set shipping address: ${fullName}, ${city}, ${state} ${zipCode}`,
   });
 
   return NextResponse.json(address, { status: 201 });
