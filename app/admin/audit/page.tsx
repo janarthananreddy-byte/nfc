@@ -62,9 +62,9 @@ export default function AuditLogPage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-nfc-border">
-                <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>When</th>
-                <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Admin</th>
+              <tr className="bg-nfc-outer border-b-2 border-nfc-border">
+                <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Changed on</th>
+                <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>User</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Action</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Target</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Details</th>
@@ -76,8 +76,8 @@ export default function AuditLogPage() {
               ) : logs.length === 0 ? (
                 <tr><td colSpan={5} className="text-center py-12 text-nfc-muted text-sm">No changes recorded yet.</td></tr>
               ) : (
-                logs.map((l) => (
-                  <tr key={l.id} className="border-b border-nfc-border/50">
+                logs.map((l, i) => (
+                  <tr key={l.id} className={`border-b border-nfc-border/50 ${i % 2 ? "bg-nfc-outer/40" : "bg-white"}`}>
                     <td className="px-4 py-3 text-xs text-nfc-muted whitespace-nowrap">{new Date(l.createdAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</td>
                     <td className="px-4 py-3 text-sm text-nfc-dark">{l.actorEmail || "—"}</td>
                     <td className="px-4 py-3">
