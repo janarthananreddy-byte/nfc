@@ -58,33 +58,6 @@ export default function AuditLogPage() {
         <button onClick={() => load(page)} title="Refresh" className="px-4 py-2 bg-white border border-nfc-border rounded-xl text-sm font-bold text-nfc-dark hover:bg-nfc-outer transition-colors">↻ Refresh</button>
       </div>
 
-      {/* Action code reference */}
-      <div className="bg-white rounded-2xl border border-nfc-border overflow-hidden mb-5">
-        <div className="px-4 py-3 border-b border-nfc-border bg-nfc-outer">
-          <p className="text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Action codes</p>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-nfc-outer border-b-2 border-nfc-border">
-                <th className="text-left px-4 py-2.5 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Code</th>
-                <th className="text-left px-4 py-2.5 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(ACTION_LABEL).map((code, i) => (
-                <tr key={code} className={`border-b border-nfc-border/50 ${i % 2 ? "bg-nfc-outer/40" : "bg-white"}`}>
-                  <td className="px-4 py-2">
-                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${ACTION_STYLE[code] || "bg-nfc-outer text-nfc-muted border-nfc-border"}`} style={{ fontFamily: "Space Mono, monospace" }}>{code}</span>
-                  </td>
-                  <td className="px-4 py-2 text-sm text-nfc-dark">{ACTION_LABEL[code]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       <div className="bg-white rounded-2xl border border-nfc-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
