@@ -121,6 +121,8 @@ model Order {
   phone       String   @default("")
   status      String   @default("payment_review")
   upiTxnId    String   @default("")
+  trackingId  String   @default("")
+  trackingUrl String   @default("")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
