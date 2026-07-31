@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
@@ -52,11 +53,29 @@ export async function PATCH(req: Request) {
       where: { userId },
       data: { isActive: !tag.isActive },
     });
+    const u = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+    await logAudit({
+      actorEmail: session.user.email || "",
+      action: updated.isActive ? "tag_enabled" : "tag_disabled",
+      targetType: "user",
+      targetId: userId,
+      targetLabel: u?.email || userId,
+      details: `Tag ${updated.isActive ? "enabled" : "disabled"}`,
+    });
     return NextResponse.json(updated);
   }
 
   if (action === "deleteUser") {
+    const u = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     await prisma.user.delete({ where: { id: userId } });
+    await logAudit({
+      actorEmail: session.user.email || "",
+      action: "user_deleted",
+      targetType: "user",
+      targetId: userId,
+      targetLabel: u?.email || userId,
+      details: `Deleted account ${u?.email || userId}`,
+    });
     return NextResponse.json({ success: true });
   }
 
