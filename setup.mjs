@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS "Setting" (
 
 CREATE TABLE IF NOT EXISTS "Order" (
   "id"          TEXT     NOT NULL PRIMARY KEY,
+  "orderNo"     TEXT     NOT NULL DEFAULT '',
   "userId"      TEXT     NOT NULL,
   "quantity"    INTEGER  NOT NULL DEFAULT 1,
   "unitPrice"   INTEGER  NOT NULL DEFAULT 0,
@@ -126,6 +127,13 @@ CREATE TABLE IF NOT EXISTS "Order" (
 );
 `);
 console.log("✓ Database schema ready");
+
+// ---------- Migrations (add columns to existing tables) ----------
+try {
+  await client.execute("ALTER TABLE \"Order\" ADD COLUMN \"orderNo\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
 
 // ---------- Seed settings ----------
 await client.batch([
