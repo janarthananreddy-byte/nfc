@@ -11,24 +11,54 @@ export async function GET(req: Request) {
 
   const { searchParams } = new URL(req.url);
   const range = searchParams.get("range") || "7";
-  const days = parseInt(range);
+  const allTime = range === "all";
   const page = parseInt(searchParams.get("page") || "1");
   const limit = 50;
 
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
+  let startDate: Date;
+  if (allTime) {
+    const first = await prisma.nfcTap.findFirst({ orderBy: { tappedAt: "asc" }, select: { tappedAt: true } });
+    startDate = first ? new Date(first.tappedAt) : new Date();
+  } else {
+    const days = parseInt(range) || 7;
+    startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+  }
   startDate.setHours(0, 0, 0, 0);
 
-  // Daily tap counts for chart
+  const now = new Date();
+  const spanDays = Math.floor((now.getTime() - startDate.getTime()) / 86400000) + 1;
+  const monthly = allTime && spanDays > 120;
+
+  // Bucket taps for the chart in a single query
+  const chartTaps = await prisma.nfcTap.findMany({ where: { tappedAt: { gte: startDate } }, select: { tappedAt: true } });
   const daily: { date: string; count: number }[] = [];
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    d.setHours(0, 0, 0, 0);
-    const nextD = new Date(d);
-    nextD.setDate(d.getDate() + 1);
-    const count = await prisma.nfcTap.count({ where: { tappedAt: { gte: d, lt: nextD } } });
-    daily.push({ date: d.toLocaleDateString("en-IN", { month: "short", day: "numeric" }), count });
+  const idx: Record<string, number> = {};
+  if (monthly) {
+    let d = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+    const end = new Date(now.getFullYear(), now.getMonth(), 1);
+    while (d <= end) {
+      idx[`${d.getFullYear()}-${d.getMonth()}`] = daily.length;
+      daily.push({ date: d.toLocaleDateString("en-IN", { month: "short", year: "2-digit" }), count: 0 });
+      d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+    }
+    for (const t of chartTaps) {
+      const dt = new Date(t.tappedAt);
+      const k = `${dt.getFullYear()}-${dt.getMonth()}`;
+      if (idx[k] !== undefined) daily[idx[k]].count++;
+    }
+  } else {
+    for (let i = 0; i < spanDays; i++) {
+      const d = new Date(startDate);
+      d.setDate(startDate.getDate() + i);
+      idx[`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`] = daily.length;
+      daily.push({ date: d.toLocaleDateString("en-IN", { month: "short", day: "numeric" }), count: 0 });
+    }
+    for (const t of chartTaps) {
+      const d = new Date(t.tappedAt);
+      const k = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      if (idx[k] !== undefined) daily[idx[k]].count++;
+    }
   }
 
   // Recent taps with user info
