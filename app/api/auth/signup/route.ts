@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendOtpEmail } from "@/lib/mailer";
+import { logAudit } from "@/lib/audit";
 
 function generateOtp() {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email already registered. Please sign in instead." }, { status: 409 });
     }
 
-    await prisma.user.create({
+    const created = await prisma.user.create({
       data: {
         email,
         role: "user",
@@ -25,6 +26,8 @@ export async function POST(req: Request) {
         nfcTag:  { create: {} },
       },
     });
+
+    await logAudit({ actorEmail: email, action: "user_created", targetType: "user", targetId: created.id, targetLabel: email, details: "New account registered" });
 
     // Invalidate old OTPs and send a fresh one
     await prisma.otpToken.updateMany({ where: { email, used: false }, data: { used: true } });
