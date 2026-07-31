@@ -2,6 +2,21 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
+
+const FIELD_LABELS: Record<string, string> = {
+  firstName: "First name",
+  lastName: "Last name",
+  age: "Age",
+  cyclingType: "Cycling type",
+  clubName: "Club name",
+  clubId: "Club ID",
+  clubContactName: "Club contact name",
+  clubContactPhone: "Club contact phone",
+  clubContactEmail: "Club contact email",
+  bloodType: "Blood type",
+  photoUrl: "Photo",
+};
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -24,11 +39,39 @@ export async function PUT(req: Request) {
   const body = await req.json();
   const { firstName, lastName, age, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl } = body;
 
+  const existing = await prisma.profile.findUnique({ where: { userId: session.user.id } });
+
+  const nextData = {
+    firstName, lastName, age: age ? parseInt(age) : null, cyclingType,
+    clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl,
+  };
+
   const profile = await prisma.profile.upsert({
     where: { userId: session.user.id },
-    update: { firstName, lastName, age: age ? parseInt(age) : null, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl },
-    create: { userId: session.user.id, firstName, lastName, age: age ? parseInt(age) : null, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl },
+    update: nextData,
+    create: { userId: session.user.id, ...nextData },
   });
+
+  // Build a list of changed fields for the audit trail
+  const changes: string[] = [];
+  for (const key of Object.keys(FIELD_LABELS)) {
+    const before = existing ? (existing as Record<string, unknown>)[key] : undefined;
+    const after = (profile as Record<string, unknown>)[key];
+    const b = before === null || before === undefined ? "" : String(before);
+    const a = after === null || after === undefined ? "" : String(after);
+    if (b !== a) changes.push(`${FIELD_LABELS[key]}: "${b}" → "${a}"`);
+  }
+
+  if (changes.length > 0) {
+    await logAudit({
+      actorEmail: session.user.email || "",
+      action: existing ? "profile_updated" : "profile_created",
+      targetType: "user",
+      targetId: session.user.id,
+      targetLabel: session.user.email || session.user.id,
+      details: changes.join("; "),
+    });
+  }
 
   return NextResponse.json(profile);
 }
