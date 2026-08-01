@@ -15,21 +15,14 @@ interface DashboardData {
     contacts: { id: string; name: string; relationship: string; phone: string; isPrimary: boolean }[];
   } | null;
   tag: { tagSlug: string; isActive: boolean } | null;
+  tapCount?: number;
 }
 
 export default function DashboardPage() {
   const { data: session } = useSession();
   const [data, setData] = useState<DashboardData | null>(null);
-  const [tapCount, setTapCount] = useState(0);
-
   useEffect(() => {
     fetch("/api/profile").then((r) => r.json()).then(setData);
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/admin/stats").then((r) => r.json()).then((d) => {
-      if (d.tapsToday !== undefined) setTapCount(d.tapsToday);
-    }).catch(() => {});
   }, []);
 
   const tagUrl = data?.tag ? `${window.location.origin}/tag/${data.tag.tagSlug}` : "";
@@ -102,13 +95,12 @@ export default function DashboardPage() {
             desc="Update your cyclist info and emergency contacts"
             cta="Edit →"
           />
-          <ActionCard
-            href="/shipping"
-            icon={<TruckIcon />}
-            title="Shipping Address"
-            desc="Enter where to ship your physical NFC tag"
-            cta="Add address →"
-          />
+          <div className="bg-white rounded-2xl border border-nfc-border p-5">
+            <div className="w-10 h-10 rounded-xl bg-nfc-red-light flex items-center justify-center mb-3"><TapIcon /></div>
+            <p className="text-xs font-bold text-nfc-muted uppercase tracking-widest mb-1" style={{ fontFamily: "Space Mono, monospace" }}>TAPPED</p>
+            <p className="text-3xl font-extrabold text-nfc-dark">{data?.tapCount ?? 0}</p>
+            <p className="text-xs text-nfc-subtle mt-1">Times your tag was scanned by others</p>
+          </div>
           <ActionCard
             href="/order"
             icon={<CartIcon />}
@@ -146,8 +138,8 @@ function ActionCard({ href, icon, title, desc, cta, external }: { href: string; 
 function UserIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11900" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
 }
-function TruckIcon() {
-  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11900" strokeWidth="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>;
+function TapIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11900" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
 }
 function CartIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11900" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>;
