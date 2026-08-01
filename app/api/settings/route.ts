@@ -7,6 +7,7 @@ const DEFAULTS: Record<string, string> = {
   tag_price: "499",
   upi_id: "",
   payee_name: "NFC Emergency ID",
+  session_timeout: "30",
 };
 
 async function readSettings() {
@@ -17,6 +18,7 @@ async function readSettings() {
     tagPrice: Number(map.tag_price) || 0,
     upiId: map.upi_id || "",
     payeeName: map.payee_name || "NFC Emergency ID",
+    sessionTimeout: Number(map.session_timeout) || 30,
   };
 }
 
@@ -34,6 +36,7 @@ export async function PATCH(req: Request) {
   if (body.tagPrice !== undefined) updates.tag_price = String(Math.max(0, parseInt(body.tagPrice) || 0));
   if (body.upiId !== undefined) updates.upi_id = String(body.upiId).trim();
   if (body.payeeName !== undefined) updates.payee_name = String(body.payeeName).trim();
+  if (body.sessionTimeout !== undefined) updates.session_timeout = String(Math.min(1440, Math.max(1, parseInt(body.sessionTimeout) || 30)));
 
   for (const [key, value] of Object.entries(updates)) {
     await prisma.setting.upsert({ where: { key }, update: { value }, create: { key, value } });
