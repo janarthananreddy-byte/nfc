@@ -16,7 +16,7 @@ interface DashboardData {
   } | null;
   tag: { tagSlug: string; isActive: boolean } | null;
   tapCount?: number;
-  taps?: { id: string; tappedAt: string; ipAddress: string; userAgent: string }[];
+  taps?: { id: string; tappedAt: string; ipAddress: string; userAgent: string; latitude: string; longitude: string }[];
 }
 
 export default function DashboardPage() {
@@ -130,6 +130,7 @@ export default function DashboardPage() {
                   <span className="text-nfc-dark">{new Date(t.tappedAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
                   <span className="text-nfc-muted text-xs">{deviceLabel(t.userAgent)}</span>
                   <span className="font-mono text-xs text-nfc-subtle">{t.ipAddress || "-"}</span>
+                  <span className="text-xs">{t.latitude && t.longitude ? <a href={`https://maps.google.com/?q=${t.latitude},${t.longitude}`} target="_blank" className="text-nfc-red underline">{Number(t.latitude).toFixed(3)}, {Number(t.longitude).toFixed(3)}</a> : <span className="text-nfc-subtle">-</span>}</span>
                 </div>
               ))}
             </div>
