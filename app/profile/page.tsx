@@ -27,6 +27,16 @@ interface ProfileData {
 const BLOOD_TYPES = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 const CYCLING_TYPES = ["Road cyclist", "Mountain biker", "Track cyclist", "Triathlete", "BMX rider", "Gravel rider", "Touring cyclist"];
 
+function deviceLabel(ua: string) {
+  const s = String(ua || "");
+  if (/iPhone|iPad|iOS/i.test(s)) return "iOS";
+  if (/Android/i.test(s)) return "Android";
+  if (/Windows/i.test(s)) return "Windows";
+  if (/Macintosh|Mac OS/i.test(s)) return "Mac";
+  if (/Linux/i.test(s)) return "Linux";
+  return s ? "Other" : "Unknown";
+}
+
 export default function ProfilePage() {
   const [profile, setProfile] = useState<ProfileData>({
     firstName: "", lastName: "", age: "", cyclingType: "Road cyclist",
@@ -40,6 +50,7 @@ export default function ProfilePage() {
   const [editingContact, setEditingContact] = useState<string | null>(null);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [taps, setTaps] = useState<{ id: string; tappedAt: string; ipAddress: string; userAgent: string }[]>([]);
 
   useEffect(() => {
     fetch("/api/profile").then((r) => r.json()).then((d) => {
@@ -59,6 +70,7 @@ export default function ProfilePage() {
         });
         setContacts(d.profile.contacts || []);
       }
+      setTaps(d.taps || []);
     });
   }, []);
 
@@ -194,6 +206,31 @@ export default function ProfilePage() {
             {saving ? "Saving…" : saved ? "✓ Saved!" : "Save Profile"}
           </button>
         </form>
+
+        {/* Tag Tap Activity */}
+        <div className="bg-white rounded-2xl border border-nfc-border p-6 mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="font-bold text-nfc-dark flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-nfc-dark text-white text-xs flex items-center justify-center font-black">T</span>
+              Tag Tap Activity
+            </h2>
+            <span className="text-xs font-bold text-nfc-red">{taps.length} recent</span>
+          </div>
+          <p className="text-nfc-muted text-xs mb-4">Every time someone scans your NFC tag, the scan is logged here.</p>
+          {taps.length === 0 ? (
+            <p className="text-sm text-nfc-subtle text-center py-4">No taps recorded yet.</p>
+          ) : (
+            <div className="divide-y divide-nfc-border/50">
+              {taps.map((t) => (
+                <div key={t.id} className="flex items-center justify-between gap-3 py-2 text-sm">
+                  <span className="text-nfc-dark">{new Date(t.tappedAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
+                  <span className="text-nfc-muted text-xs">{deviceLabel(t.userAgent)}</span>
+                  <span className="font-mono text-xs text-nfc-subtle">{t.ipAddress || "-"}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Club Contact */}
         <div className="bg-white rounded-2xl border border-nfc-border p-6 mb-6">
