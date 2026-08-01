@@ -29,7 +29,9 @@ export async function GET() {
 
   const tag = await prisma.nfcTag.findUnique({ where: { userId: session.user.id } });
 
-  return NextResponse.json({ profile, tag });
+  const tapCount = tag ? await prisma.nfcTap.count({ where: { tagId: tag.id } }) : 0;
+
+  return NextResponse.json({ profile, tag, tapCount });
 }
 
 export async function PUT(req: Request) {
