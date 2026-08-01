@@ -40,11 +40,6 @@ export function UserNav() {
               {l.label}
             </Link>
           ))}
-          {session?.user.role === "admin" && (
-            <Link href="/admin" className="px-3 py-1.5 rounded-lg text-sm font-medium text-nfc-red hover:bg-white/5 transition-colors">
-              Admin
-            </Link>
-          )}
         </nav>
 
         <div className="flex items-center gap-3">
