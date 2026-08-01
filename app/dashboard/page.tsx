@@ -22,6 +22,7 @@ interface DashboardData {
 export default function DashboardPage() {
   const { data: session } = useSession();
   const [data, setData] = useState<DashboardData | null>(null);
+  const [tapPage, setTapPage] = useState(1);
   useEffect(() => {
     fetch("/api/profile").then((r) => r.json()).then(setData);
   }, []);
@@ -124,22 +125,33 @@ export default function DashboardPage() {
           {(data?.taps?.length ?? 0) === 0 ? (
             <p className="text-sm text-nfc-subtle text-center py-4">No taps recorded yet.</p>
           ) : (
-            <div className="divide-y divide-nfc-border/50">
-              <div className="flex items-center justify-between gap-3 py-2 text-[11px] font-bold text-nfc-muted uppercase tracking-wide border-b-2 border-nfc-border" style={{ fontFamily: "Space Mono, monospace" }}>
-                <span>When</span>
-                <span>Device</span>
-                <span>IP</span>
-                <span>Location</span>
-              </div>
-              {data!.taps!.map((t) => (
-                <div key={t.id} className="flex items-center justify-between gap-3 py-2 text-sm">
-                  <span className="text-nfc-dark">{new Date(t.tappedAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
-                  <span className="text-nfc-muted text-xs">{deviceLabel(t.userAgent)}</span>
-                  <span className="font-mono text-xs text-nfc-subtle">{t.ipAddress || "-"}</span>
-                  <span className="text-xs">{t.latitude && t.longitude ? <a href={`https://maps.google.com/?q=${t.latitude},${t.longitude}`} target="_blank" className="text-nfc-red underline">{Number(t.latitude).toFixed(3)}, {Number(t.longitude).toFixed(3)}</a> : <span className="text-nfc-subtle">-</span>}</span>
+            <>
+              <div className="divide-y divide-nfc-border/50">
+                <div className="flex items-center gap-3 py-2 text-[11px] font-bold text-nfc-muted uppercase tracking-wide border-b-2 border-nfc-border" style={{ fontFamily: "Space Mono, monospace" }}>
+                  <span className="flex-1">When</span>
+                  <span className="w-16">Device</span>
+                  <span className="w-28">IP</span>
+                  <span className="w-24 text-right">Location</span>
                 </div>
-              ))}
-            </div>
+                {(data!.taps!).slice((tapPage - 1) * 10, tapPage * 10).map((t) => (
+                  <div key={t.id} className="flex items-center gap-3 py-1.5 text-xs">
+                    <span className="flex-1 text-nfc-dark whitespace-nowrap">{new Date(t.tappedAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
+                    <span className="w-16 text-nfc-muted truncate">{deviceLabel(t.userAgent)}</span>
+                    <span className="w-28 font-mono text-nfc-subtle truncate">{t.ipAddress || "-"}</span>
+                    <span className="w-24 text-right truncate">{t.latitude && t.longitude ? <a href={`https://maps.google.com/?q=${t.latitude},${t.longitude}`} target="_blank" className="text-nfc-red underline">{Number(t.latitude).toFixed(2)}, {Number(t.longitude).toFixed(2)}</a> : <span className="text-nfc-subtle">-</span>}</span>
+                  </div>
+                ))}
+              </div>
+              {data!.taps!.length > 10 && (
+                <div className="flex items-center justify-between pt-3 mt-1 border-t border-nfc-border">
+                  <span className="text-xs text-nfc-muted">Page {tapPage} of {Math.ceil(data!.taps!.length / 10)}</span>
+                  <div className="flex gap-2">
+                    <button onClick={() => setTapPage((p) => Math.max(1, p - 1))} disabled={tapPage === 1} className="px-3 py-1.5 rounded-lg text-xs font-bold bg-nfc-outer text-nfc-dark disabled:opacity-40 hover:bg-nfc-border transition-colors">Prev</button>
+                    <button onClick={() => setTapPage((p) => Math.min(Math.ceil(data!.taps!.length / 10), p + 1))} disabled={tapPage >= Math.ceil(data!.taps!.length / 10)} className="px-3 py-1.5 rounded-lg text-xs font-bold bg-nfc-outer text-nfc-dark disabled:opacity-40 hover:bg-nfc-border transition-colors">Next</button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </main>
