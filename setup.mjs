@@ -141,6 +141,17 @@ CREATE TABLE IF NOT EXISTS "Order" (
   "updatedAt"   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS "TagCall" (
+  "id"           TEXT     NOT NULL PRIMARY KEY,
+  "tagId"        TEXT     NOT NULL,
+  "contactName"  TEXT     NOT NULL DEFAULT '',
+  "relationship" TEXT     NOT NULL DEFAULT '',
+  "phone"        TEXT     NOT NULL DEFAULT '',
+  "ipAddress"    TEXT     NOT NULL DEFAULT '',
+  "createdAt"    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY ("tagId") REFERENCES "NfcTag"("id") ON DELETE CASCADE
+);
 `);
 console.log("✓ Database schema ready");
 
