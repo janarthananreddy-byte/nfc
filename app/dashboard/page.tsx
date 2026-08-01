@@ -125,6 +125,12 @@ export default function DashboardPage() {
             <p className="text-sm text-nfc-subtle text-center py-4">No taps recorded yet.</p>
           ) : (
             <div className="divide-y divide-nfc-border/50">
+              <div className="flex items-center justify-between gap-3 py-2 text-[11px] font-bold text-nfc-muted uppercase tracking-wide border-b-2 border-nfc-border" style={{ fontFamily: "Space Mono, monospace" }}>
+                <span>When</span>
+                <span>Device</span>
+                <span>IP</span>
+                <span>Location</span>
+              </div>
               {data!.taps!.map((t) => (
                 <div key={t.id} className="flex items-center justify-between gap-3 py-2 text-sm">
                   <span className="text-nfc-dark">{new Date(t.tappedAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
