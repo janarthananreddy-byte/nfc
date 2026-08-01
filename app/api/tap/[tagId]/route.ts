@@ -13,8 +13,20 @@ export async function POST(req: Request, { params }: { params: Promise<{ tagId: 
   const ip = forwarded ? forwarded.split(",")[0].trim() : req.headers.get("x-real-ip") || "";
   const userAgent = req.headers.get("user-agent") || "";
 
+  let latitude = "";
+  let longitude = "";
+  try {
+    const body = await req.json();
+    if (body && typeof body === "object") {
+      latitude = String(body.latitude || "");
+      longitude = String(body.longitude || "");
+    }
+  } catch {
+    // no body / not JSON
+  }
+
   await prisma.nfcTap.create({
-    data: { tagId: tag.id, ipAddress: ip, userAgent },
+    data: { tagId: tag.id, ipAddress: ip, userAgent, latitude, longitude },
   });
 
   return NextResponse.json({ recorded: true });
