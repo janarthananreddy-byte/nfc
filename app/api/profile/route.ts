@@ -32,7 +32,17 @@ export async function GET() {
   const tapCount = tag ? await prisma.nfcTap.count({ where: { tagId: tag.id } }) : 0;
   const taps = tag ? await prisma.nfcTap.findMany({ where: { tagId: tag.id }, orderBy: { tappedAt: "desc" }, take: 25, select: { id: true, tappedAt: true, ipAddress: true, userAgent: true, latitude: true, longitude: true } }) : [];
 
-  return NextResponse.json({ profile, tag, tapCount, taps });
+  const callRows = tag ? await prisma.tagCall.findMany({ where: { tagId: tag.id }, orderBy: { createdAt: "desc" }, select: { contactName: true, relationship: true, phone: true, createdAt: true } }) : [];
+  const callCount = callRows.length;
+  const byNum: Record<string, { contactName: string; relationship: string; phone: string; count: number; lastAt: Date }> = {};
+  for (const c of callRows) {
+    const k = c.phone || c.contactName || "unknown";
+    if (!byNum[k]) byNum[k] = { contactName: c.contactName, relationship: c.relationship, phone: c.phone, count: 0, lastAt: c.createdAt };
+    byNum[k].count++;
+  }
+  const callStats = Object.values(byNum).sort((a, b) => b.count - a.count);
+
+  return NextResponse.json({ profile, tag, tapCount, taps, callCount, callStats });
 }
 
 export async function PUT(req: Request) {
