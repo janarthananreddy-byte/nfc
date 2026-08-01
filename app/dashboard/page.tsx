@@ -17,6 +17,8 @@ interface DashboardData {
   tag: { tagSlug: string; isActive: boolean } | null;
   tapCount?: number;
   taps?: { id: string; tappedAt: string; ipAddress: string; userAgent: string; latitude: string; longitude: string }[];
+  callCount?: number;
+  callStats?: { contactName: string; relationship: string; phone: string; count: number; lastAt: string }[];
 }
 
 export default function DashboardPage() {
@@ -152,6 +154,35 @@ export default function DashboardPage() {
                 </div>
               )}
             </>
+          )}
+        </div>
+        {/* Emergency Calls Made */}
+        <div className="bg-white rounded-2xl border border-nfc-border p-6 mt-6">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="font-bold text-nfc-dark flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-nfc-dark text-white text-xs flex items-center justify-center font-black">C</span>
+              Emergency Calls Made
+            </h2>
+            <span className="text-xs font-bold text-nfc-red">{data?.callCount ?? 0} total</span>
+          </div>
+          <p className="text-nfc-muted text-xs mb-4">Which of your contacts strangers have called from your scanned tag.</p>
+          {(data?.callStats?.length ?? 0) === 0 ? (
+            <p className="text-sm text-nfc-subtle text-center py-4">No calls yet.</p>
+          ) : (
+            <div className="divide-y divide-nfc-border/50">
+              <div className="flex items-center gap-3 py-2 text-[11px] font-bold text-nfc-muted uppercase tracking-wide border-b-2 border-nfc-border" style={{ fontFamily: "Space Mono, monospace" }}>
+                <span className="flex-1">Contact</span>
+                <span className="w-36">Number</span>
+                <span className="w-16 text-right">Times</span>
+              </div>
+              {data!.callStats!.map((c, i) => (
+                <div key={i} className="flex items-center gap-3 py-1.5 text-xs">
+                  <span className="flex-1 text-nfc-dark truncate">{c.contactName || "-"}{c.relationship ? ` (${c.relationship})` : ""}</span>
+                  <span className="w-36 font-mono text-nfc-subtle truncate">{c.phone || "-"}</span>
+                  <span className="w-16 text-right font-bold text-nfc-red">{c.count}</span>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </main>
