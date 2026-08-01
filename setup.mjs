@@ -181,6 +181,7 @@ await client.batch([
   { sql: "INSERT OR IGNORE INTO Setting (key, value) VALUES (?, ?)", args: ["tag_price", "499"] },
   { sql: "INSERT OR IGNORE INTO Setting (key, value) VALUES (?, ?)", args: ["upi_id", ""] },
   { sql: "INSERT OR IGNORE INTO Setting (key, value) VALUES (?, ?)", args: ["payee_name", "NFC Emergency ID"] },
+  { sql: "INSERT OR IGNORE INTO Setting (key, value) VALUES (?, ?)", args: ["session_timeout", "30"] },
 ], "write");
 console.log("✓ Store settings ready");
 
