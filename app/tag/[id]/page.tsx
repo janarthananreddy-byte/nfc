@@ -32,17 +32,12 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
   return (
     <>
       <TapRecorder tagSlug={id} />
-      <div style={{ minHeight: "100vh", width: "100%", background: "#e9e6e1", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "40px 20px", boxSizing: "border-box" }}>
-        <div style={{ position: "relative", width: "392px", minHeight: "844px", background: "#faf9f7", borderRadius: "46px", boxShadow: "0 24px 60px rgba(0,0,0,.18)", overflow: "hidden", border: "1px solid #e7e4df" }}>
+      <div style={{ minHeight: "100vh", width: "100%", background: "#faf9f7", display: "flex", justifyContent: "center" }}>
+        <div style={{ position: "relative", width: "100%", maxWidth: "480px", minHeight: "100vh", background: "#faf9f7", overflow: "hidden" }}>
 
-          {/* Notch */}
-          <div style={{ position: "absolute", top: "14px", left: "50%", transform: "translateX(-50%)", width: "118px", height: "30px", background: "#111", borderRadius: "18px", zIndex: 5 }}></div>
 
-          {/* Status bar */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 28px 6px", font: "600 14px 'Archivo',sans-serif", color: "#16140f", position: "relative", zIndex: 4 }}>
-            <span>
-              {new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: false })}
-            </span>
+          {/* Scanned indicator */}
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", padding: "14px 24px 6px", position: "relative", zIndex: 4 }}>
             <span style={{ font: "700 11px 'Space Mono',monospace", letterSpacing: ".1em", color: "#e11900" }}>TAG SCANNED</span>
           </div>
 
