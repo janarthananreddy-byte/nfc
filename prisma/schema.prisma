@@ -86,6 +86,8 @@ model NfcTap {
   tag       NfcTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
   ipAddress String @default("")
   userAgent String @default("")
+  latitude  String @default("")
+  longitude String @default("")
 
   tappedAt DateTime @default(now())
 }
