@@ -86,6 +86,8 @@ CREATE TABLE IF NOT EXISTS "NfcTap" (
   "tagId"     TEXT     NOT NULL,
   "ipAddress" TEXT     NOT NULL DEFAULT '',
   "userAgent" TEXT     NOT NULL DEFAULT '',
+  "latitude"  TEXT     NOT NULL DEFAULT '',
+  "longitude" TEXT     NOT NULL DEFAULT '',
   "tappedAt"  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY ("tagId") REFERENCES "NfcTag"("id") ON DELETE CASCADE
 );
@@ -154,6 +156,16 @@ try {
 }
 try {
   await client.execute("ALTER TABLE \"Order\" ADD COLUMN \"trackingUrl\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"NfcTap\" ADD COLUMN \"latitude\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"NfcTap\" ADD COLUMN \"longitude\" TEXT NOT NULL DEFAULT ''");
 } catch {
   // column already exists
 }
