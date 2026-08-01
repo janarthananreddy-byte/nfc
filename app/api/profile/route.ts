@@ -30,7 +30,7 @@ export async function GET() {
   const tag = await prisma.nfcTag.findUnique({ where: { userId: session.user.id } });
 
   const tapCount = tag ? await prisma.nfcTap.count({ where: { tagId: tag.id } }) : 0;
-  const taps = tag ? await prisma.nfcTap.findMany({ where: { tagId: tag.id }, orderBy: { tappedAt: "desc" }, take: 25, select: { id: true, tappedAt: true, ipAddress: true, userAgent: true } }) : [];
+  const taps = tag ? await prisma.nfcTap.findMany({ where: { tagId: tag.id }, orderBy: { tappedAt: "desc" }, take: 25, select: { id: true, tappedAt: true, ipAddress: true, userAgent: true, latitude: true, longitude: true } }) : [];
 
   return NextResponse.json({ profile, tag, tapCount, taps });
 }
