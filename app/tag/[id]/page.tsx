@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { TapRecorder } from "./TapRecorder";
+import { CallLink } from "./CallLink";
 
 export const dynamic = "force-dynamic";
 
@@ -101,29 +102,11 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
             <div style={{ font: "700 11px 'Space Mono',monospace", letterSpacing: ".14em", color: "#6b6660", marginBottom: "12px" }}>EMERGENCY CONTACTS</div>
 
             {primaryContact && (
-              <a href={`tel:${primaryContact.phone}`} className="animate-ring" style={{ display: "flex", alignItems: "center", gap: "14px", textDecoration: "none", background: "#e11900", borderRadius: "18px", padding: "16px 18px", marginBottom: "10px" }}>
-                <span style={{ width: "46px", height: "46px", borderRadius: "50%", flex: "none", background: "rgba(255,255,255,.18)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <PhoneIcon color="#fff" />
-                </span>
-                <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", font: "700 17px 'Archivo',sans-serif", color: "#fff" }}>{primaryContact.name}</span>
-                  <span style={{ display: "block", font: "500 12px 'Space Mono',monospace", color: "rgba(255,255,255,.82)", marginTop: "2px" }}>{primaryContact.relationship.toUpperCase()} · PRIMARY</span>
-                </span>
-                <span style={{ font: "700 13px 'Space Mono',monospace", color: "#fff", letterSpacing: ".06em" }}>CALL</span>
-              </a>
+              <CallLink tagSlug={id} contact={primaryContact} primary />
             )}
 
             {otherContacts.map((c) => (
-              <a key={c.id} href={`tel:${c.phone}`} style={{ display: "flex", alignItems: "center", gap: "14px", textDecoration: "none", background: "#fff", border: "1.5px solid #e7e4df", borderRadius: "18px", padding: "14px 18px", marginBottom: "10px" }}>
-                <span style={{ width: "46px", height: "46px", borderRadius: "50%", flex: "none", background: "#fdece9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <PhoneIcon color="#e11900" size={20} />
-                </span>
-                <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", font: "700 17px 'Archivo',sans-serif", color: "#16140f" }}>{c.name}</span>
-                  <span style={{ display: "block", font: "500 12px 'Space Mono',monospace", color: "#8a857c", marginTop: "2px" }}>{c.relationship.toUpperCase()}</span>
-                </span>
-                <span style={{ font: "700 13px 'Space Mono',monospace", color: "#e11900", letterSpacing: ".06em" }}>CALL</span>
-              </a>
+              <CallLink key={c.id} tagSlug={id} contact={c} />
             ))}
 
             {p.contacts.length === 0 && (
