@@ -140,3 +140,13 @@ model AuditLog {
   details     String   @default("")
   createdAt   DateTime @default(now())
 }
+
+model TagCall {
+  id           String   @id @default(cuid())
+  tagId        String
+  contactName  String   @default("")
+  relationship String   @default("")
+  phone        String   @default("")
+  ipAddress    String   @default("")
+  createdAt    DateTime @default(now())
+}
