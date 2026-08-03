@@ -14,6 +14,7 @@ interface ProfileData {
   firstName: string;
   lastName: string;
   age: string;
+  mobile: string;
   cyclingType: string;
   clubName: string;
   clubId: string;
@@ -29,7 +30,7 @@ const CYCLING_TYPES = ["Road cyclist", "Mountain biker", "Track cyclist", "Triat
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<ProfileData>({
-    firstName: "", lastName: "", age: "", cyclingType: "Road cyclist",
+    firstName: "", lastName: "", age: "", mobile: "", cyclingType: "Road cyclist",
     clubName: "", clubId: "", clubContactName: "", clubContactPhone: "", clubContactEmail: "",
     bloodType: "", photoUrl: "",
   });
@@ -48,6 +49,7 @@ export default function ProfilePage() {
           firstName: d.profile.firstName || "",
           lastName: d.profile.lastName || "",
           age: d.profile.age ? String(d.profile.age) : "",
+          mobile: d.profile.mobile || "",
           cyclingType: d.profile.cyclingType || "Road cyclist",
           clubName: d.profile.clubName || "",
           clubId: d.profile.clubId || "",
@@ -136,7 +138,7 @@ export default function ProfilePage() {
         <form onSubmit={saveProfile} className="bg-white rounded-2xl border border-nfc-border p-6 mb-6">
           <h2 className="font-bold text-nfc-dark mb-4 flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-nfc-red text-white text-xs flex items-center justify-center font-black">1</span>
-            Cyclist Information
+            Profile information
           </h2>
 
           <div className="grid grid-cols-2 gap-4 mb-4">
@@ -145,16 +147,7 @@ export default function ProfilePage() {
           </div>
           <div className="grid grid-cols-2 gap-4 mb-4">
             <Field label="Age" type="number" value={profile.age} onChange={(v) => setProfile((p) => ({ ...p, age: v }))} placeholder="38" />
-            <div>
-              <label className="block text-xs font-bold text-nfc-muted uppercase tracking-widest mb-1.5" style={{ fontFamily: "Space Mono, monospace" }}>Cycling Type</label>
-              <select
-                value={profile.cyclingType}
-                onChange={(e) => setProfile((p) => ({ ...p, cyclingType: e.target.value }))}
-                className="w-full px-4 py-3 rounded-xl border border-nfc-border bg-nfc-bg text-nfc-dark text-sm focus:outline-none focus:border-nfc-red focus:ring-2 focus:ring-nfc-red/10 transition-colors"
-              >
-                {CYCLING_TYPES.map((t) => <option key={t}>{t}</option>)}
-              </select>
-            </div>
+            <Field label="Mobile Number" type="tel" value={profile.mobile} onChange={(v) => setProfile((p) => ({ ...p, mobile: v }))} placeholder="+91 98765 43210" required />
           </div>
 
           {/* Club details */}
@@ -360,7 +353,7 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
             <div style={{ paddingBottom: "6px" }}>
               <div style={{ font: "800 22px/1 'Archivo',sans-serif", color: "#16140f", letterSpacing: "-.02em" }}>{fullName}</div>
               <div style={{ marginTop: "5px", font: "500 13px 'Archivo',sans-serif", color: "#6b6660" }}>
-                {profile.age ? `Age ${profile.age}` : ""}{profile.age && profile.cyclingType ? " · " : ""}{profile.cyclingType}
+                {profile.age ? `Age ${profile.age}` : ""}
               </div>
               {(profile.clubName || profile.clubId) && (
                 <div style={{ marginTop: "8px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
