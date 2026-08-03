@@ -172,14 +172,16 @@ export default function DashboardPage() {
             <div className="divide-y divide-nfc-border/50">
               <div className="flex items-center gap-3 py-2 text-[11px] font-bold text-nfc-muted uppercase tracking-wide border-b-2 border-nfc-border" style={{ fontFamily: "Space Mono, monospace" }}>
                 <span className="flex-1">Contact</span>
-                <span className="w-36">Number</span>
-                <span className="w-16 text-right">Times</span>
+                <span className="w-32">Number</span>
+                <span className="w-28">Last called</span>
+                <span className="w-12 text-right">Times</span>
               </div>
               {data!.callStats!.map((c, i) => (
                 <div key={i} className="flex items-center gap-3 py-1.5 text-xs">
                   <span className="flex-1 text-nfc-dark truncate">{c.contactName || "-"}{c.relationship ? ` (${c.relationship})` : ""}</span>
-                  <span className="w-36 font-mono text-nfc-subtle truncate">{c.phone || "-"}</span>
-                  <span className="w-16 text-right font-bold text-nfc-red">{c.count}</span>
+                  <span className="w-32 font-mono text-nfc-subtle truncate">{c.phone || "-"}</span>
+                  <span className="w-28 text-nfc-muted truncate">{c.lastAt ? new Date(c.lastAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "2-digit", hour: "2-digit", minute: "2-digit" }) : "-"}</span>
+                  <span className="w-12 text-right font-bold text-nfc-red">{c.count}</span>
                 </div>
               ))}
             </div>
