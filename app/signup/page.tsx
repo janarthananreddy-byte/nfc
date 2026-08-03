@@ -94,7 +94,7 @@ export default function SignupPage() {
           </h1>
           <p className="text-nfc-muted text-sm mt-1">
             {step === "form"
-              ? "Get your NFC Emergency ID card"
+              ? "Get your Emergencycall card"
               : `We sent a 6-digit code to ${form.email}`}
           </p>
         </div>
