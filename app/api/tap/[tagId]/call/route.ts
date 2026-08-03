@@ -17,17 +17,21 @@ export async function POST(req: Request, { params }: { params: Promise<{ tagId: 
   let contactName = "";
   let relationship = "";
   let phone = "";
+  let latitude = "";
+  let longitude = "";
   try {
     const body = await req.json();
     contactName = String(body.contactName || "").slice(0, 120);
     relationship = String(body.relationship || "").slice(0, 60);
     phone = String(body.phone || "").slice(0, 40);
+    latitude = String(body.latitude || "").slice(0, 32);
+    longitude = String(body.longitude || "").slice(0, 32);
   } catch {
     // no body
   }
 
   await prisma.tagCall.create({
-    data: { tagId: tag.id, contactName, relationship, phone, ipAddress: ip },
+    data: { tagId: tag.id, contactName, relationship, phone, latitude, longitude, ipAddress: ip },
   });
 
   await logAudit({
