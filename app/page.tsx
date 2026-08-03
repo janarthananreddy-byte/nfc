@@ -13,7 +13,7 @@ export default function LandingPage() {
               </svg>
             </div>
             <span className="font-extrabold text-white text-lg tracking-tight">
-              NFC<span className="text-nfc-red">ID</span>
+              Emergency<span className="text-nfc-red"> Call</span>
             </span>
           </div>
           <div className="flex items-center gap-3">
