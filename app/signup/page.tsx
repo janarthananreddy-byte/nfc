@@ -113,6 +113,7 @@ export default function SignupPage() {
                   <input
                     value={form.firstName}
                     onChange={(e) => update("firstName", e.target.value)}
+                    required
                     placeholder="Marco"
                     className="w-full px-3 py-2.5 rounded-xl border border-nfc-border bg-nfc-bg text-nfc-dark text-sm focus:outline-none focus:border-nfc-red focus:ring-2 focus:ring-nfc-red/10 transition-colors"
                   />
