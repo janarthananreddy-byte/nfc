@@ -31,7 +31,7 @@ export default function LandingPage() {
           <div className="inline-flex items-center gap-2 bg-nfc-red-light border border-nfc-red/20 rounded-full px-4 py-1.5 mb-6">
             <span className="w-2 h-2 rounded-full bg-nfc-red animate-scanpulse inline-block"></span>
             <span className="text-xs font-bold text-nfc-red" style={{ fontFamily: "Space Mono, monospace", letterSpacing: "0.1em" }}>
-              CYCLIST EMERGENCY ID
+              EMERGENCY Call
             </span>
           </div>
           <h1 className="text-5xl font-extrabold text-nfc-dark tracking-tight leading-tight mb-6">
