@@ -18,7 +18,7 @@ interface DashboardData {
   tapCount?: number;
   taps?: { id: string; tappedAt: string; ipAddress: string; userAgent: string; latitude: string; longitude: string }[];
   callCount?: number;
-  callStats?: { contactName: string; relationship: string; phone: string; count: number; lastAt: string }[];
+  callStats?: { contactName: string; relationship: string; phone: string; latitude: string; longitude: string; count: number; lastAt: string }[];
 }
 
 export default function DashboardPage() {
@@ -174,6 +174,7 @@ export default function DashboardPage() {
                 <span className="flex-1">Contact</span>
                 <span className="w-32">Number</span>
                 <span className="w-28">Last called</span>
+                <span className="w-24">Location</span>
                 <span className="w-12 text-right">Times</span>
               </div>
               {data!.callStats!.map((c, i) => (
@@ -181,6 +182,7 @@ export default function DashboardPage() {
                   <span className="flex-1 text-nfc-dark truncate">{c.contactName || "-"}{c.relationship ? ` (${c.relationship})` : ""}</span>
                   <span className="w-32 font-mono text-nfc-subtle truncate">{c.phone || "-"}</span>
                   <span className="w-28 text-nfc-muted truncate">{c.lastAt ? new Date(c.lastAt).toLocaleString("en-IN", { day: "numeric", month: "short", year: "2-digit", hour: "2-digit", minute: "2-digit" }) : "-"}</span>
+                  <span className="w-24 truncate">{c.latitude && c.longitude ? <a href={`https://maps.google.com/?q=${c.latitude},${c.longitude}`} target="_blank" className="text-nfc-red underline">{Number(c.latitude).toFixed(2)}, {Number(c.longitude).toFixed(2)}</a> : <span className="text-nfc-subtle">-</span>}</span>
                   <span className="w-12 text-right font-bold text-nfc-red">{c.count}</span>
                 </div>
               ))}
