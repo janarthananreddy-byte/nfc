@@ -26,7 +26,7 @@ export function UserNav() {
             </svg>
           </span>
           <span className="font-bold text-white tracking-tight" style={{ fontFamily: "Archivo, sans-serif" }}>
-            NFC<span className="text-nfc-red">ID</span>
+            Emergency<span className="text-nfc-red"> Call</span>
           </span>
         </Link>
 
