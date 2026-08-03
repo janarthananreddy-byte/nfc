@@ -69,7 +69,7 @@ export default function DashboardPage() {
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div>
                 <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1" style={{ fontFamily: "Space Mono, monospace" }}>Your NFC Card URL</p>
-                <p className="text-sm text-white/80 font-mono break-all">{tagUrl}</p>
+                <p className="text-sm text-white/80 font-mono break-all">{data?.tag ? `${window.location.origin}/tag/${String(data.tag.tagSlug).slice(0,4)}${"\u2022".repeat(10)}` : ""}</p>
               </div>
               <div className="flex gap-2 flex-wrap">
                 <Link
