@@ -2,10 +2,12 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useIdleRemaining } from "@/components/IdleProvider";
 
 export function UserNav() {
   const { data: session } = useSession();
   const pathname = usePathname();
+  const remaining = useIdleRemaining();
 
   const links = [
     { href: "/dashboard", label: "Dashboard" },
@@ -43,6 +45,11 @@ export function UserNav() {
         </nav>
 
         <div className="flex items-center gap-3">
+          {remaining != null && (
+            <span className="hidden sm:flex items-center gap-1 text-xs text-white/45 px-2 py-1 rounded-lg bg-white/5" style={{ fontFamily: "Space Mono, monospace" }} title="Auto-logout after inactivity">
+              <span className={remaining <= 60 ? "text-nfc-red" : ""}>{Math.floor(remaining / 60)}:{String(remaining % 60).padStart(2, "0")}</span>
+            </span>
+          )}
           <span className="text-xs text-white/40 hidden sm:block">{session?.user.email}</span>
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
