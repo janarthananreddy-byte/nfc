@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS "Profile" (
   "firstName"        TEXT     NOT NULL DEFAULT '',
   "lastName"         TEXT     NOT NULL DEFAULT '',
   "age"              INTEGER,
+  "mobile"           TEXT     NOT NULL DEFAULT '',
   "cyclingType"      TEXT     NOT NULL DEFAULT 'Road cyclist',
   "clubName"         TEXT     NOT NULL DEFAULT '',
   "clubId"           TEXT     NOT NULL DEFAULT '',
@@ -195,6 +196,11 @@ try {
 }
 try {
   await client.execute("ALTER TABLE \"TagCall\" ADD COLUMN \"longitude\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"Profile\" ADD COLUMN \"mobile\" TEXT NOT NULL DEFAULT ''");
 } catch {
   // column already exists
 }
