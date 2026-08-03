@@ -8,6 +8,7 @@ const FIELD_LABELS: Record<string, string> = {
   firstName: "First name",
   lastName: "Last name",
   age: "Age",
+  mobile: "Mobile number",
   cyclingType: "Cycling type",
   clubName: "Club name",
   clubId: "Club ID",
@@ -50,12 +51,12 @@ export async function PUT(req: Request) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { firstName, lastName, age, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl } = body;
+  const { firstName, lastName, age, mobile, cyclingType, clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl } = body;
 
   const existing = await prisma.profile.findUnique({ where: { userId: session.user.id } });
 
   const nextData = {
-    firstName, lastName, age: age ? parseInt(age) : null, cyclingType,
+    firstName, lastName, age: age ? parseInt(age) : null, mobile, cyclingType,
     clubName, clubId, clubContactName, clubContactPhone, clubContactEmail, bloodType, photoUrl,
   };
 
