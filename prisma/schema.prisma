@@ -26,6 +26,7 @@ model Profile {
   firstName   String   @default("")
   lastName    String   @default("")
   age         Int?
+  mobile      String   @default("")
   cyclingType String   @default("Road cyclist")
   clubName         String @default("")
   clubId           String @default("")
