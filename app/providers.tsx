@@ -1,12 +1,11 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
-import { IdleTimeout } from "@/components/IdleTimeout";
+import { IdleProvider } from "@/components/IdleProvider";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      <IdleTimeout />
-      {children}
+      <IdleProvider>{children}</IdleProvider>
     </SessionProvider>
   );
 }
