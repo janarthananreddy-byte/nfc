@@ -147,6 +147,8 @@ model TagCall {
   contactName  String   @default("")
   relationship String   @default("")
   phone        String   @default("")
+  latitude     String   @default("")
+  longitude    String   @default("")
   ipAddress    String   @default("")
   createdAt    DateTime @default(now())
 }
