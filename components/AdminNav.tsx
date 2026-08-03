@@ -27,7 +27,7 @@ export function AdminNav() {
           </div>
           <div>
             <div className="font-bold text-white text-sm tracking-tight" style={{ fontFamily: "Archivo, sans-serif" }}>
-              NFC<span className="text-nfc-red">ID</span>
+              Emergency<span className="text-nfc-red"> Call</span>
             </div>
             <div className="text-xs text-white/40" style={{ fontFamily: "Space Mono, monospace", letterSpacing: "0.08em" }}>ADMIN</div>
           </div>
