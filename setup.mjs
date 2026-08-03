@@ -148,6 +148,8 @@ CREATE TABLE IF NOT EXISTS "TagCall" (
   "contactName"  TEXT     NOT NULL DEFAULT '',
   "relationship" TEXT     NOT NULL DEFAULT '',
   "phone"        TEXT     NOT NULL DEFAULT '',
+  "latitude"     TEXT     NOT NULL DEFAULT '',
+  "longitude"    TEXT     NOT NULL DEFAULT '',
   "ipAddress"    TEXT     NOT NULL DEFAULT '',
   "createdAt"    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY ("tagId") REFERENCES "NfcTag"("id") ON DELETE CASCADE
@@ -183,6 +185,16 @@ try {
 }
 try {
   await client.execute("ALTER TABLE \"NfcTap\" ADD COLUMN \"helperPhoto\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"TagCall\" ADD COLUMN \"latitude\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"TagCall\" ADD COLUMN \"longitude\" TEXT NOT NULL DEFAULT ''");
 } catch {
   // column already exists
 }
