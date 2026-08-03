@@ -120,7 +120,7 @@ export default function LoginPage() {
           </h1>
           <p className="text-nfc-muted text-sm mt-1">
             {step === "email"
-              ? "Sign in to your NFC Emergency ID account"
+              ? "Sign in to your Emergency Call account"
               : `We sent a 6-digit code to ${email}`}
           </p>
         </div>
