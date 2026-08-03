@@ -11,43 +11,47 @@ export function useIdleRemaining() {
 export function IdleProvider({ children }: { children: React.ReactNode }) {
   const { status } = useSession();
   const [remaining, setRemaining] = useState<number | null>(null);
-  const lastActivity = useRef<number>(Date.now());
-  const timeoutMs = useRef<number>(30 * 60 * 1000);
+  const logoutAt = useRef<number>(0);
 
   useEffect(() => {
     if (status !== "authenticated") {
       setRemaining(null);
+      logoutAt.current = 0;
       return;
     }
     let cancelled = false;
+    let iv: ReturnType<typeof setInterval> | undefined;
 
-    function activity() {
-      lastActivity.current = Date.now();
-    }
-    const events = ["mousemove", "mousedown", "keydown", "touchstart", "scroll", "click"];
-    events.forEach((e) => window.addEventListener(e, activity, { passive: true }));
-
-    fetch("/api/settings")
-      .then((r) => r.json())
-      .then((d) => {
-        if (!cancelled && d && d.sessionTimeout) timeoutMs.current = (Number(d.sessionTimeout) || 30) * 60 * 1000;
-      })
-      .catch(() => {});
-
-    const iv = setInterval(() => {
-      const rem = timeoutMs.current - (Date.now() - lastActivity.current);
-      if (rem <= 0) {
-        setRemaining(0);
-        signOut({ callbackUrl: "/login" });
-      } else {
-        setRemaining(Math.ceil(rem / 1000));
+    async function start() {
+      let minutes = 30;
+      try {
+        const d = await (await fetch("/api/settings")).json();
+        if (d && d.sessionTimeout) minutes = Number(d.sessionTimeout) || 30;
+      } catch {
+        // keep default
       }
-    }, 1000);
+      if (cancelled) return;
+
+      if (!logoutAt.current) logoutAt.current = Date.now() + minutes * 60 * 1000;
+
+      function tick() {
+        const rem = Math.round((logoutAt.current - Date.now()) / 1000);
+        if (rem <= 0) {
+          setRemaining(0);
+          if (iv) clearInterval(iv);
+          signOut({ callbackUrl: "/login" });
+        } else {
+          setRemaining(rem);
+        }
+      }
+      tick();
+      iv = setInterval(tick, 1000);
+    }
+    start();
 
     return () => {
       cancelled = true;
-      clearInterval(iv);
-      events.forEach((e) => window.removeEventListener(e, activity));
+      if (iv) clearInterval(iv);
     };
   }, [status]);
 
