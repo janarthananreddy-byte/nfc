@@ -1,4 +1,17 @@
 "use client";
+import { useEffect } from "react";
+
+let __coords = { lat: "", lng: "" };
+let __requested = false;
+function ensureCoords() {
+  if (__requested || typeof navigator === "undefined" || !navigator.geolocation) return;
+  __requested = true;
+  navigator.geolocation.getCurrentPosition(
+    (p) => { __coords = { lat: String(p.coords.latitude), lng: String(p.coords.longitude) }; },
+    () => {},
+    { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 }
+  );
+}
 
 interface Contact { name: string; relationship: string; phone: string; }
 
@@ -11,9 +24,11 @@ function Phone({ color, size = 24 }: { color: string; size?: number }) {
 }
 
 export function CallLink({ tagSlug, contact, primary }: { tagSlug: string; contact: Contact; primary?: boolean }) {
+  useEffect(() => { ensureCoords(); }, []);
+
   function record() {
     try {
-      const blob = new Blob([JSON.stringify({ contactName: contact.name, relationship: contact.relationship, phone: contact.phone })], { type: "application/json" });
+      const blob = new Blob([JSON.stringify({ contactName: contact.name, relationship: contact.relationship, phone: contact.phone, latitude: __coords.lat, longitude: __coords.lng })], { type: "application/json" });
       navigator.sendBeacon(`/api/tap/${tagSlug}/call`, blob);
     } catch {
       // ignore
