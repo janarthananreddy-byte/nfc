@@ -65,6 +65,7 @@ model ShippingAddress {
   zipCode   String
   country   String  @default("India")
   phone     String  @default("")
+  preferredCourier String @default("")
   isDefault Boolean @default(true)
 
   createdAt DateTime @default(now())
