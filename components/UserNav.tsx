@@ -11,8 +11,6 @@ export function UserNav() {
 
   const links = [
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/profile", label: "My Profile" },
-    { href: "/shipping", label: "Shipping" },
     { href: "/orders", label: "My Orders" },
   ];
 
