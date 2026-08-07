@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { LOGO_SRC } from "@/components/brand";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" },
@@ -20,11 +21,7 @@ export function AdminNav() {
     <aside className="fixed left-0 top-0 h-full w-56 bg-nfc-dark flex flex-col z-30">
       <div className="px-5 py-5 border-b border-white/10">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-nfc-red flex items-center justify-center">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-          </div>
+          <img src={LOGO_SRC} alt="Emergency Call" className="w-7 h-7 rounded-full object-cover" />
           <div>
             <div className="font-bold text-white text-sm tracking-tight" style={{ fontFamily: "Archivo, sans-serif" }}>
               Emergency<span className="text-nfc-red"> Call</span>
