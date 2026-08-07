@@ -11,12 +11,14 @@ interface Address {
   zipCode: string;
   country: string;
   phone: string;
+  preferredCourier: string;
 }
 
 const COUNTRIES = ["India", "United States", "United Kingdom", "Canada", "Australia", "Germany", "France", "Singapore", "UAE", "Other"];
+const COURIERS = ["Xpressbees", "Delhivery", "Ecom Express", "Blue Dart", "Dotzot", "Shadowfax", "Aramex", "Ekart", "Borzo", "Dunzo", "DTDC", "Gati", "ST Courier", "Professional courier"];
 
 export default function ShippingPage() {
-  const [form, setForm] = useState<Address>({ fullName: "", address1: "", address2: "", city: "", state: "", zipCode: "", country: "India", phone: "" });
+  const [form, setForm] = useState<Address>({ fullName: "", address1: "", address2: "", city: "", state: "", zipCode: "", country: "India", phone: "", preferredCourier: "Xpressbees" });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
@@ -26,7 +28,7 @@ export default function ShippingPage() {
     fetch("/api/shipping").then((r) => r.json()).then((d) => {
       if (d && d.id) {
         setExisting(true);
-        setForm({ fullName: d.fullName, address1: d.address1, address2: d.address2 || "", city: d.city, state: d.state, zipCode: d.zipCode, country: d.country || "India", phone: d.phone || "" });
+        setForm({ fullName: d.fullName, address1: d.address1, address2: d.address2 || "", city: d.city, state: d.state, zipCode: d.zipCode, country: d.country || "India", phone: d.phone || "", preferredCourier: d.preferredCourier || "Xpressbees" });
       }
     });
   }, []);
@@ -115,6 +117,17 @@ export default function ShippingPage() {
             </div>
 
             <Field label="Phone (for delivery)" value={form.phone} onChange={(v) => update("phone", v)} placeholder="+91 98765 43210" type="tel" />
+
+            <div>
+              <label className="block text-xs font-bold text-nfc-muted uppercase tracking-widest mb-1.5" style={{ fontFamily: "Space Mono, monospace" }}>Preferred Courier</label>
+              <select
+                value={form.preferredCourier}
+                onChange={(e) => update("preferredCourier", e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-nfc-border bg-nfc-bg text-nfc-dark text-sm focus:outline-none focus:border-nfc-red focus:ring-2 focus:ring-nfc-red/10 transition-colors"
+              >
+                {COURIERS.map((c) => <option key={c}>{c}</option>)}
+              </select>
+            </div>
 
             <button
               type="submit"
