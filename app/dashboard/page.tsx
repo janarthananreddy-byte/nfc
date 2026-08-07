@@ -25,11 +25,23 @@ export default function DashboardPage() {
   const { data: session } = useSession();
   const [data, setData] = useState<DashboardData | null>(null);
   const [tapPage, setTapPage] = useState(1);
+  const [showQR, setShowQR] = useState(false);
   useEffect(() => {
     fetch("/api/profile").then((r) => r.json()).then(setData);
   }, []);
 
   const tagUrl = data?.tag ? `${window.location.origin}/tag/${data.tag.tagSlug}` : "";
+
+  function printQR() {
+    const qrSrc = "https://api.qrserver.com/v1/create-qr-code/?size=320x320&ecc=H&data=" + encodeURIComponent(tagUrl);
+    const w = window.open("", "_blank", "width=420,height=560");
+    if (!w) return;
+    w.document.write('<html><head><title>Emergency QR Code</title></head><body style="text-align:center;font-family:sans-serif;margin-top:40px;"><div style="position:relative;display:inline-block;"><img src="' + qrSrc + '" width="320" height="320"/><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:2px 5px;font-size:12px;font-weight:bold;color:#e11900;border-radius:3px;">emergencycall.in</span></div><p style="font-weight:bold;color:#e11900;margin-top:16px;">emergencycall.in</p></body></html>');
+    w.document.close();
+    w.focus();
+    setTimeout(function () { w.print(); }, 600);
+  }
+
   const profileComplete = data?.profile && data.profile.firstName && data.profile.bloodType && (data.profile.contacts?.length ?? 0) > 0;
 
   return (
@@ -80,10 +92,10 @@ export default function DashboardPage() {
                   Preview Card
                 </Link>
                 <button
-                  onClick={() => navigator.clipboard.writeText(tagUrl)}
+                  onClick={() => setShowQR(true)}
                   className="px-4 py-2 bg-white/10 text-white rounded-xl text-sm font-bold hover:bg-white/20 transition-colors"
                 >
-                  Copy URL
+                  QR Code
                 </button>
               </div>
             </div>
@@ -189,6 +201,21 @@ export default function DashboardPage() {
             </div>
           )}
         </div>
+      {showQR && data?.tag && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setShowQR(false)}>
+          <div className="bg-white rounded-2xl p-6 max-w-xs w-full text-center" onClick={(e) => e.stopPropagation()}>
+            <p className="font-bold text-nfc-dark mb-4">Your Emergency QR Code</p>
+            <div className="relative inline-block">
+              <img src={`https://api.qrserver.com/v1/create-qr-code/?size=260x260&ecc=H&data=${encodeURIComponent(tagUrl)}`} width={260} height={260} alt="Emergency QR Code" />
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-1.5 py-0.5 text-[10px] font-bold text-nfc-red rounded" style={{ fontFamily: "Space Mono, monospace" }}>emergencycall.in</span>
+            </div>
+            <div className="flex gap-2 mt-5">
+              <button onClick={printQR} className="flex-1 px-4 py-2 bg-nfc-red text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-colors">Print</button>
+              <button onClick={() => setShowQR(false)} className="flex-1 px-4 py-2 bg-nfc-bg text-nfc-dark rounded-xl text-sm font-bold hover:bg-gray-100 transition-colors">Close</button>
+            </div>
+          </div>
+        </div>
+      )}
       </main>
     </>
   );
