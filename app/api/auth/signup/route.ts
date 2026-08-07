@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         email,
         role: "user",
         profile: { create: { firstName: firstName || "", lastName: lastName || "" } },
-        nfcTag:  { create: {} },
+        nfcTag:  { create: { isActive: false } },
       },
     });
 
