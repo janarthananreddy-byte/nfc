@@ -26,6 +26,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [tapPage, setTapPage] = useState(1);
   const [showQR, setShowQR] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   useEffect(() => {
     fetch("/api/profile").then((r) => r.json()).then(setData);
   }, []);
@@ -84,13 +85,12 @@ export default function DashboardPage() {
                 <p className="text-sm text-white/80 font-mono break-all">{data?.tag ? `${window.location.origin}/tag/${String(data.tag.tagSlug).slice(0,4)}${"\u2022".repeat(10)}` : ""}</p>
               </div>
               <div className="flex gap-2 flex-wrap">
-                <Link
-                  href={`/tag/${data.tag.tagSlug}`}
-                  target="_blank"
+                <button
+                  onClick={() => setShowPreview(true)}
                   className="px-4 py-2 bg-nfc-red text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-colors"
                 >
                   Preview Card
-                </Link>
+                </button>
                 <button
                   onClick={() => setShowQR(true)}
                   className="px-4 py-2 bg-white/10 text-white rounded-xl text-sm font-bold hover:bg-white/20 transition-colors"
@@ -201,6 +201,17 @@ export default function DashboardPage() {
             </div>
           )}
         </div>
+      {showPreview && data?.tag && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setShowPreview(false)}>
+          <div className="bg-white rounded-2xl overflow-hidden w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-nfc-border">
+              <p className="font-bold text-nfc-dark text-sm">Emergency Card Preview</p>
+              <button onClick={() => setShowPreview(false)} className="text-nfc-muted hover:text-nfc-dark text-xl leading-none">×</button>
+            </div>
+            <iframe src={`/tag/${data.tag.tagSlug}`} title="Emergency Card Preview" className="w-full" style={{ height: "70vh", border: "none" }} />
+          </div>
+        </div>
+      )}
       {showQR && data?.tag && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setShowQR(false)}>
           <div className="bg-white rounded-2xl p-6 max-w-xs w-full text-center" onClick={(e) => e.stopPropagation()}>
