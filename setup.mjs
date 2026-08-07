@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS "ShippingAddress" (
   "zipCode"   TEXT     NOT NULL,
   "country"   TEXT     NOT NULL DEFAULT 'India',
   "phone"     TEXT     NOT NULL DEFAULT '',
+  "preferredCourier" TEXT NOT NULL DEFAULT '',
   "isDefault" INTEGER  NOT NULL DEFAULT 1,
   "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE
@@ -201,6 +202,11 @@ try {
 }
 try {
   await client.execute("ALTER TABLE \"Profile\" ADD COLUMN \"mobile\" TEXT NOT NULL DEFAULT ''");
+} catch {
+  // column already exists
+}
+try {
+  await client.execute("ALTER TABLE \"ShippingAddress\" ADD COLUMN \"preferredCourier\" TEXT NOT NULL DEFAULT ''");
 } catch {
   // column already exists
 }
