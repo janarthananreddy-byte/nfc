@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { fullName, address1, address2, city, state, zipCode, country, phone } = body;
+  const { fullName, address1, address2, city, state, zipCode, country, phone, preferredCourier } = body;
 
   if (!fullName || !address1 || !city || !state || !zipCode) {
     return NextResponse.json({ error: "Please fill all required fields" }, { status: 400 });
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   });
 
   const address = await prisma.shippingAddress.create({
-    data: { userId: session.user.id, fullName, address1, address2: address2 || "", city, state, zipCode, country: country || "India", phone: phone || "", isDefault: true },
+    data: { userId: session.user.id, fullName, address1, address2: address2 || "", city, state, zipCode, country: country || "India", phone: phone || "", preferredCourier: preferredCourier || "", isDefault: true },
   });
 
   await logAudit({
