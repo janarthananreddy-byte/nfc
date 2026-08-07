@@ -12,6 +12,7 @@ export function UserNav() {
   const links = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/orders", label: "My Orders" },
+    { href: "/contact", label: "Contact Us" },
   ];
 
   return (
