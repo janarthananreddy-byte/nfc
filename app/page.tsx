@@ -56,8 +56,8 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { icon: "🏥", title: "Instant Emergency Access", desc: "No app needed. Any smartphone can scan your NFC tag and see your emergency contacts and blood type." },
-            { icon: "✏️", title: "Always Up to Date", desc: "Update your contacts, blood type, and medical info anytime from your dashboard. Changes are instant." },
-            { icon: "📦", title: "Physical Tag Shipped", desc: "Enter your shipping address and we'll send you a waterproof NFC sticker ready to attach to your helmet." },
+            { icon: "📞", title: "Your Privacy Protected", desc: "Your phone numbers stay masked when your tag is scanned. Responders can still reach your emergency contacts, but the actual numbers are never shown — your privacy always comes first." },
+            { icon: "📦", title: "Get your physical NFC Tag", desc: "Enter your shipping address and we'll send you a waterproof NFC sticker ready to attach to your helmet." },
           ].map((f) => (
             <div key={f.title} className="bg-white rounded-2xl border border-nfc-border p-6">
               <div className="text-3xl mb-3">{f.icon}</div>
