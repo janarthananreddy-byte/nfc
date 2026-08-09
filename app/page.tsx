@@ -4,6 +4,7 @@ import { LOGO_SRC } from "@/components/brand";
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-nfc-outer">
+      <style>{`@keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}@keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(225,25,0,0.35)}50%{box-shadow:0 0 0 20px rgba(225,25,0,0)}}`}</style>
       {/* Nav */}
       <header className="bg-nfc-dark">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -24,6 +25,7 @@ export default function LandingPage() {
 
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-4 pt-20 pb-16">
+        <div className="flex flex-col md:flex-row items-center gap-8">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 bg-nfc-red-light border border-nfc-red/20 rounded-full px-4 py-1.5 mb-6">
             <span className="w-2 h-2 rounded-full bg-nfc-red animate-scanpulse inline-block"></span>
@@ -48,6 +50,12 @@ export default function LandingPage() {
               Sign In
             </Link>
           </div>
+        </div>
+        <div className="flex-1 flex items-center justify-center w-full">
+          <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-2 border-nfc-red flex items-center justify-center" style={{ animation: "ringPulse 2.6s ease-in-out infinite" }}>
+            <img src={LOGO_SRC} alt="Emergency Call" className="w-44 h-44 md:w-56 md:h-56 object-contain" style={{ animation: "floatLogo 3s ease-in-out infinite" }} />
+          </div>
+        </div>
         </div>
       </section>
 
