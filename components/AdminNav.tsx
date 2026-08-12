@@ -21,7 +21,7 @@ export function AdminNav() {
     <aside className="fixed left-0 top-0 h-full w-56 bg-nfc-dark flex flex-col z-30">
       <div className="px-5 py-5 border-b border-white/10">
         <div className="flex items-center gap-2">
-          <img src={LOGO_SRC} alt="Emergency Call" className="w-7 h-7 rounded-full object-cover" />
+          <img src={LOGO_SRC} alt="Emergency Call" className="w-9 h-9 object-contain" />
           <div>
             <div className="font-bold text-white text-sm tracking-tight" style={{ fontFamily: "Archivo, sans-serif" }}>
               Emergency<span className="text-nfc-red"> Call</span>
