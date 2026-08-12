@@ -25,7 +25,7 @@
 body {
   background: var(--nfc-bg);
   color: var(--nfc-dark);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 @keyframes scanpulse {
@@ -42,5 +42,5 @@ body {
 .animate-ring { animation: ring 2s ease-out infinite; }
 
 input, select, textarea {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
