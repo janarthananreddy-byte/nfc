@@ -328,7 +328,7 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
           <div style={{ position: "absolute", top: "14px", left: "50%", transform: "translateX(-50%)", width: "118px", height: "30px", background: "#111", borderRadius: "18px", zIndex: 5 }}></div>
 
           {/* Status bar */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 28px 6px", font: "600 14px 'Archivo',sans-serif", color: "#16140f", position: "relative", zIndex: 4 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 28px 6px", font: "600 14px 'Inter',sans-serif", color: "#16140f", position: "relative", zIndex: 4 }}>
             <span>{new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: false })}</span>
             <span style={{ font: "700 11px 'Space Mono',monospace", letterSpacing: ".1em", color: "#e11900" }}>TAG SCANNED</span>
           </div>
@@ -351,13 +351,13 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
               )}
             </div>
             <div style={{ paddingBottom: "6px" }}>
-              <div style={{ font: "800 22px/1 'Archivo',sans-serif", color: "#16140f", letterSpacing: "-.02em" }}>{fullName}</div>
-              <div style={{ marginTop: "5px", font: "500 13px 'Archivo',sans-serif", color: "#6b6660" }}>
+              <div style={{ font: "800 22px/1 'Inter',sans-serif", color: "#16140f", letterSpacing: "-.02em" }}>{fullName}</div>
+              <div style={{ marginTop: "5px", font: "500 13px 'Inter',sans-serif", color: "#6b6660" }}>
                 {profile.age ? `Age ${profile.age}` : ""}
               </div>
               {(profile.clubName || profile.clubId) && (
                 <div style={{ marginTop: "8px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                  {profile.clubName && <span style={{ font: "700 11px 'Archivo',sans-serif", color: "#16140f" }}>{profile.clubName}</span>}
+                  {profile.clubName && <span style={{ font: "700 11px 'Inter',sans-serif", color: "#16140f" }}>{profile.clubName}</span>}
                   {profile.clubId && <span style={{ font: "700 10px 'Space Mono',monospace", color: "#e11900", background: "#fdece9", padding: "2px 8px", borderRadius: "6px", letterSpacing: ".06em" }}>{profile.clubId}</span>}
                 </div>
               )}
@@ -368,7 +368,7 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
           {profile.bloodType && (
             <div style={{ margin: "18px 24px 0", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", border: "2px solid #e11900", borderRadius: "18px", background: "#fff" }}>
               <div style={{ font: "700 11px 'Space Mono',monospace", letterSpacing: ".14em", color: "#e11900" }}>BLOOD TYPE</div>
-              <div style={{ font: "900 32px 'Archivo',sans-serif", color: "#16140f", lineHeight: 1 }}>
+              <div style={{ font: "900 32px 'Inter',sans-serif", color: "#16140f", lineHeight: 1 }}>
                 {profile.bloodType.replace("+", "").replace("-", "")}<span style={{ color: "#e11900" }}>{profile.bloodType.includes("+") ? "+" : profile.bloodType.includes("-") ? "-" : ""}</span>
               </div>
             </div>
@@ -378,12 +378,12 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
           {(profile.clubContactName || profile.clubContactPhone) && (
             <div style={{ margin: "14px 24px 0", padding: "14px 18px", border: "1.5px solid #e7e4df", borderRadius: "18px", background: "#fff" }}>
               <div style={{ font: "700 10px 'Space Mono',monospace", letterSpacing: ".14em", color: "#6b6660", marginBottom: "8px" }}>CLUB CONTACT</div>
-              {profile.clubContactName && <div style={{ font: "700 15px 'Archivo',sans-serif", color: "#16140f" }}>{profile.clubContactName}</div>}
+              {profile.clubContactName && <div style={{ font: "700 15px 'Inter',sans-serif", color: "#16140f" }}>{profile.clubContactName}</div>}
               {profile.clubContactPhone && (
                 <a href={`tel:${profile.clubContactPhone}`} style={{ display: "block", font: "500 13px 'Space Mono',monospace", color: "#e11900", marginTop: "4px", textDecoration: "none" }}>{profile.clubContactPhone}</a>
               )}
               {profile.clubContactEmail && (
-                <a href={`mailto:${profile.clubContactEmail}`} style={{ display: "block", font: "500 12px 'Archivo',sans-serif", color: "#6b6660", marginTop: "2px", textDecoration: "none" }}>{profile.clubContactEmail}</a>
+                <a href={`mailto:${profile.clubContactEmail}`} style={{ display: "block", font: "500 12px 'Inter',sans-serif", color: "#6b6660", marginTop: "2px", textDecoration: "none" }}>{profile.clubContactEmail}</a>
               )}
             </div>
           )}
@@ -398,7 +398,7 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
                   <PhoneIcon color="#fff" />
                 </span>
                 <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", font: "700 16px 'Archivo',sans-serif", color: "#fff" }}>{primaryContact.name}</span>
+                  <span style={{ display: "block", font: "700 16px 'Inter',sans-serif", color: "#fff" }}>{primaryContact.name}</span>
                   <span style={{ display: "block", font: "500 11px 'Space Mono',monospace", color: "rgba(255,255,255,.82)", marginTop: "2px" }}>{primaryContact.relationship.toUpperCase()} · PRIMARY</span>
                 </span>
                 <span style={{ font: "700 12px 'Space Mono',monospace", color: "#fff", letterSpacing: ".06em" }}>CALL</span>
@@ -411,7 +411,7 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
                   <PhoneIcon color="#e11900" size={20} />
                 </span>
                 <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", font: "700 16px 'Archivo',sans-serif", color: "#16140f" }}>{c.name}</span>
+                  <span style={{ display: "block", font: "700 16px 'Inter',sans-serif", color: "#16140f" }}>{c.name}</span>
                   <span style={{ display: "block", font: "500 11px 'Space Mono',monospace", color: "#8a857c", marginTop: "2px" }}>{c.relationship.toUpperCase()}</span>
                 </span>
                 <span style={{ font: "700 12px 'Space Mono',monospace", color: "#e11900", letterSpacing: ".06em" }}>CALL</span>
@@ -419,7 +419,7 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
             ))}
 
             {contacts.length === 0 && (
-              <div style={{ padding: "16px", textAlign: "center", color: "#8a857c", font: "500 13px 'Archivo',sans-serif", border: "1.5px dashed #e7e4df", borderRadius: "14px" }}>
+              <div style={{ padding: "16px", textAlign: "center", color: "#8a857c", font: "500 13px 'Inter',sans-serif", border: "1.5px dashed #e7e4df", borderRadius: "14px" }}>
                 No emergency contacts added yet
               </div>
             )}
@@ -436,10 +436,10 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
                 <PhoneIcon color="#e11900" />
               </span>
               <span style={{ flex: 1 }}>
-                <span style={{ display: "block", font: "700 16px 'Archivo',sans-serif", color: "#fff" }}>Emergency Services</span>
+                <span style={{ display: "block", font: "700 16px 'Inter',sans-serif", color: "#fff" }}>Emergency Services</span>
                 <span style={{ display: "block", font: "500 11px 'Space Mono',monospace", color: "#8a857c", marginTop: "2px" }}>AMBULANCE · 108</span>
               </span>
-              <span style={{ font: "900 20px 'Archivo',sans-serif", color: "#e11900" }}>108</span>
+              <span style={{ font: "900 20px 'Inter',sans-serif", color: "#e11900" }}>108</span>
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: "14px", background: "#16140f", borderRadius: "18px", padding: "14px 18px" }}>
@@ -447,10 +447,10 @@ function CardPreviewModal({ profile, contacts, onClose }: { profile: ProfileData
                 <ShieldIcon />
               </span>
               <span style={{ flex: 1 }}>
-                <span style={{ display: "block", font: "700 16px 'Archivo',sans-serif", color: "#fff" }}>Police</span>
+                <span style={{ display: "block", font: "700 16px 'Inter',sans-serif", color: "#fff" }}>Police</span>
                 <span style={{ display: "block", font: "500 11px 'Space Mono',monospace", color: "#8a857c", marginTop: "2px" }}>POLICE · 100</span>
               </span>
-              <span style={{ font: "900 20px 'Archivo',sans-serif", color: "#e11900" }}>100</span>
+              <span style={{ font: "900 20px 'Inter',sans-serif", color: "#e11900" }}>100</span>
             </div>
           </div>
         </div>
