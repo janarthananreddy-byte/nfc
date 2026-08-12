@@ -53,7 +53,7 @@ export default function LandingPage() {
         </div>
         <div className="flex-1 flex items-center justify-center w-full">
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-2 border-nfc-red flex items-center justify-center" style={{ animation: "ringPulse 2.6s ease-in-out infinite" }}>
-            <img src={LOGO_SRC} alt="Emergency Call" className="w-44 h-44 md:w-56 md:h-56 object-contain" style={{ animation: "floatLogo 3s ease-in-out infinite" }} />
+            <img src={LOGO_SRC} alt="Emergency Call" className="w-[90%] h-[90%] object-contain" style={{ animation: "floatLogo 3s ease-in-out infinite" }} />
           </div>
         </div>
         </div>
