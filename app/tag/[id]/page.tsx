@@ -60,13 +60,13 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
               )}
             </div>
             <div style={{ paddingBottom: "6px" }}>
-              <div style={{ font: "800 25px/1 'Archivo',sans-serif", color: "#16140f", letterSpacing: "-.02em" }}>{fullName}</div>
-              <div style={{ marginTop: "5px", font: "500 14px 'Archivo',sans-serif", color: "#6b6660" }}>
+              <div style={{ font: "800 25px/1 'Inter',sans-serif", color: "#16140f", letterSpacing: "-.02em" }}>{fullName}</div>
+              <div style={{ marginTop: "5px", font: "500 14px 'Inter',sans-serif", color: "#6b6660" }}>
                 {p.age ? `Age ${p.age}` : ""}{p.age && p.cyclingType ? " · " : ""}{p.cyclingType}
               </div>
               {(p.clubName || p.clubId) && (
                 <div style={{ marginTop: "8px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                  {p.clubName && <span style={{ font: "700 12px 'Archivo',sans-serif", color: "#16140f" }}>{p.clubName}</span>}
+                  {p.clubName && <span style={{ font: "700 12px 'Inter',sans-serif", color: "#16140f" }}>{p.clubName}</span>}
                   {p.clubId && <span style={{ font: "700 11px 'Space Mono',monospace", color: "#e11900", background: "#fdece9", padding: "2px 8px", borderRadius: "6px", letterSpacing: ".06em" }}>{p.clubId}</span>}
                 </div>
               )}
@@ -77,12 +77,12 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
           {(p.clubContactName || p.clubContactPhone) && (
             <div style={{ margin: "16px 24px 0", padding: "14px 18px", border: "1.5px solid #e7e4df", borderRadius: "18px", background: "#fff" }}>
               <div style={{ font: "700 10px 'Space Mono',monospace", letterSpacing: ".14em", color: "#6b6660", marginBottom: "8px" }}>CLUB CONTACT</div>
-              {p.clubContactName && <div style={{ font: "700 15px 'Archivo',sans-serif", color: "#16140f" }}>{p.clubContactName}</div>}
+              {p.clubContactName && <div style={{ font: "700 15px 'Inter',sans-serif", color: "#16140f" }}>{p.clubContactName}</div>}
               {p.clubContactPhone && (
                 <a href={`tel:${p.clubContactPhone}`} style={{ display: "block", font: "500 13px 'Space Mono',monospace", color: "#e11900", marginTop: "4px", textDecoration: "none" }}>{p.clubContactPhone}</a>
               )}
               {p.clubContactEmail && (
-                <a href={`mailto:${p.clubContactEmail}`} style={{ display: "block", font: "500 12px 'Archivo',sans-serif", color: "#6b6660", marginTop: "2px", textDecoration: "none" }}>{p.clubContactEmail}</a>
+                <a href={`mailto:${p.clubContactEmail}`} style={{ display: "block", font: "500 12px 'Inter',sans-serif", color: "#6b6660", marginTop: "2px", textDecoration: "none" }}>{p.clubContactEmail}</a>
               )}
             </div>
           )}
@@ -91,7 +91,7 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
           {p.bloodType && (
             <div style={{ margin: "22px 24px 0", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", border: "2px solid #e11900", borderRadius: "18px", background: "#fff" }}>
               <div style={{ font: "700 11px 'Space Mono',monospace", letterSpacing: ".14em", color: "#e11900" }}>BLOOD TYPE</div>
-              <div style={{ font: "900 34px 'Archivo',sans-serif", color: "#16140f", lineHeight: 1 }}>
+              <div style={{ font: "900 34px 'Inter',sans-serif", color: "#16140f", lineHeight: 1 }}>
                 {p.bloodType.replace("+", "")}<span style={{ color: "#e11900" }}>{p.bloodType.includes("+") ? "+" : p.bloodType.includes("-") ? "-" : ""}</span>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
             ))}
 
             {p.contacts.length === 0 && (
-              <div style={{ padding: "20px", textAlign: "center", color: "#8a857c", font: "500 14px 'Archivo',sans-serif" }}>No emergency contacts added</div>
+              <div style={{ padding: "20px", textAlign: "center", color: "#8a857c", font: "500 14px 'Inter',sans-serif" }}>No emergency contacts added</div>
             )}
 
             {/* Divider */}
@@ -126,10 +126,10 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
                 <PhoneIcon color="#e11900" />
               </span>
               <span style={{ flex: 1 }}>
-                <span style={{ display: "block", font: "700 17px 'Archivo',sans-serif", color: "#fff" }}>Emergency Services</span>
+                <span style={{ display: "block", font: "700 17px 'Inter',sans-serif", color: "#fff" }}>Emergency Services</span>
                 <span style={{ display: "block", font: "500 12px 'Space Mono',monospace", color: "#8a857c", marginTop: "2px" }}>AMBULANCE · 108</span>
               </span>
-              <span style={{ font: "900 22px 'Archivo',sans-serif", color: "#e11900", letterSpacing: "-.01em" }}>108</span>
+              <span style={{ font: "900 22px 'Inter',sans-serif", color: "#e11900", letterSpacing: "-.01em" }}>108</span>
             </a>
 
             <a href="tel:100" style={{ display: "flex", alignItems: "center", gap: "14px", textDecoration: "none", background: "#16140f", borderRadius: "18px", padding: "16px 18px" }}>
@@ -137,10 +137,10 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
                 <ShieldIcon />
               </span>
               <span style={{ flex: 1 }}>
-                <span style={{ display: "block", font: "700 17px 'Archivo',sans-serif", color: "#fff" }}>Police</span>
+                <span style={{ display: "block", font: "700 17px 'Inter',sans-serif", color: "#fff" }}>Police</span>
                 <span style={{ display: "block", font: "500 12px 'Space Mono',monospace", color: "#8a857c", marginTop: "2px" }}>POLICE · 100</span>
               </span>
-              <span style={{ font: "900 22px 'Archivo',sans-serif", color: "#e11900", letterSpacing: "-.01em" }}>100</span>
+              <span style={{ font: "900 22px 'Inter',sans-serif", color: "#e11900", letterSpacing: "-.01em" }}>100</span>
             </a>
           </div>
         </div>
