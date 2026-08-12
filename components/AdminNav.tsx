@@ -23,7 +23,7 @@ export function AdminNav() {
         <div className="flex items-center gap-2">
           <img src={LOGO_SRC} alt="Emergency Call" className="w-9 h-9 object-contain" />
           <div>
-            <div className="font-bold text-white text-sm tracking-tight" style={{ fontFamily: "Archivo, sans-serif" }}>
+            <div className="font-bold text-white text-sm tracking-tight" style={{ fontFamily: "Inter, sans-serif" }}>
               Emergency<span className="text-nfc-red"> Call</span>
             </div>
             <div className="text-xs text-white/40" style={{ fontFamily: "Space Mono, monospace", letterSpacing: "0.08em" }}>ADMIN</div>
