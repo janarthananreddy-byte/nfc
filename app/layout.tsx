@@ -12,12 +12,14 @@ const archivo = Archivo({
 export const metadata: Metadata = {
   title: "NFC Emergency ID — Cyclist Safety Card",
   description: "Create your cyclist emergency contact NFC card. Scan to help in emergencies.",
+  icons: { icon: "/logo.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${archivo.variable} h-full`}>
       <head>
+        <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
