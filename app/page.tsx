@@ -38,7 +38,7 @@ export default function LandingPage() {
             <span className="text-nfc-red">one tap away</span>
           </h1>
           <p className="text-lg text-nfc-muted leading-relaxed mb-8">
-            Create your NFC Emergency ID card. Attach the smart tag to your helmet or bike.
+            Create your NFC Emergency ID card. Attach the smart tag to your Car, Bike, Bag, Helmet (or) anywhere you paste the sticker
             In an emergency, first responders can scan it instantly to see your blood type,
             emergency contacts, and medical info — no app needed.
           </p>
