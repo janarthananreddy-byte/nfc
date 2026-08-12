@@ -20,7 +20,7 @@ export function UserNav() {
     <header className="bg-nfc-dark border-b border-white/10">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <img src={LOGO_SRC} alt="Emergency Call" className="w-7 h-7 rounded-full object-cover" />
+          <img src={LOGO_SRC} alt="Emergency Call" className="w-9 h-9 object-contain" />
           <span className="font-bold text-white tracking-tight" style={{ fontFamily: "Archivo, sans-serif" }}>
             Emergency<span className="text-nfc-red"> Call</span>
           </span>
