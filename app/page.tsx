@@ -108,13 +108,12 @@ No app required.
             </div>
             <div>
               <h4 className="font-bold text-xs mb-4 uppercase tracking-widest text-white/70" style={{ fontFamily: "Space Mono, monospace" }}>Get in Touch</h4>
-              <p className="text-sm text-white/70 mb-1">Karthi, Tamilnadu</p>
               <a href="mailto:skydio2@outlook.com" className="text-sm text-nfc-red hover:underline">skydio2@outlook.com</a>
             </div>
           </div>
           <div className="border-t border-white/15 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs text-white/50">© 2026 Emergency Call. All rights reserved.</p>
-            <p className="text-xs text-white/50">Built for cyclist safety.</p>
+            <p className="text-xs text-white/50">Built for Emergency Responders.</p>
           </div>
         </div>
       </footer>
