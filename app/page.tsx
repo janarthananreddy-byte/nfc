@@ -51,7 +51,6 @@ export default function LandingPage() {
               Sign In
             </Link>
           </div>
-          <LiveStats />
         </div>
         <div className="flex-1 flex items-center justify-center w-full">
           <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
@@ -59,6 +58,11 @@ export default function LandingPage() {
           </div>
         </div>
         </div>
+      </section>
+
+      {/* Live stats */}
+      <section className="max-w-6xl mx-auto px-4 pb-12 -mt-4">
+        <LiveStats />
       </section>
 
       {/* Features */}
