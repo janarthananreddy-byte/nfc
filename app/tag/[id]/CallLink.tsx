@@ -42,7 +42,7 @@ export function CallLink({ tagSlug, contact, primary }: { tagSlug: string; conta
           <Phone color="#fff" />
         </span>
         <span style={{ flex: 1 }}>
-          <span style={{ display: "block", font: "700 17px 'Archivo',sans-serif", color: "#fff" }}>{contact.name}</span>
+          <span style={{ display: "block", font: "700 17px 'Inter',sans-serif", color: "#fff" }}>{contact.name}</span>
           <span style={{ display: "block", font: "500 12px 'Space Mono',monospace", color: "rgba(255,255,255,.82)", marginTop: "2px" }}>{contact.relationship.toUpperCase()} - PRIMARY</span>
         </span>
         <span style={{ font: "700 13px 'Space Mono',monospace", color: "#fff", letterSpacing: ".06em" }}>CALL</span>
@@ -56,7 +56,7 @@ export function CallLink({ tagSlug, contact, primary }: { tagSlug: string; conta
         <Phone color="#e11900" size={20} />
       </span>
       <span style={{ flex: 1 }}>
-        <span style={{ display: "block", font: "700 17px 'Archivo',sans-serif", color: "#16140f" }}>{contact.name}</span>
+        <span style={{ display: "block", font: "700 17px 'Inter',sans-serif", color: "#16140f" }}>{contact.name}</span>
         <span style={{ display: "block", font: "500 12px 'Space Mono',monospace", color: "#8a857c", marginTop: "2px" }}>{contact.relationship.toUpperCase()}</span>
       </span>
       <span style={{ font: "700 13px 'Space Mono',monospace", color: "#e11900", letterSpacing: ".06em" }}>CALL</span>
