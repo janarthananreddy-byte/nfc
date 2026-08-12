@@ -122,7 +122,7 @@ export default function AdminReportsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#e7e4df" />
                   <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: "Space Mono, monospace", fill: "#8a857c" }} />
                   <YAxis tick={{ fontSize: 10, fontFamily: "Space Mono, monospace", fill: "#8a857c" }} allowDecimals={false} />
-                  <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e7e4df", fontFamily: "Archivo", fontSize: 12 }} formatter={(v) => [`${v}`, "Taps"]} />
+                  <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e7e4df", fontFamily: "Inter", fontSize: 12 }} formatter={(v) => [`${v}`, "Taps"]} />
                   <Bar dataKey="count" fill="#e11900" radius={[5, 5, 0, 0]} maxBarSize={40} />
                 </BarChart>
               </ResponsiveContainer>
@@ -137,7 +137,7 @@ export default function AdminReportsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#e7e4df" />
                   <XAxis dataKey="date" tick={{ fontSize: 10, fontFamily: "Space Mono, monospace", fill: "#8a857c" }} />
                   <YAxis tick={{ fontSize: 10, fontFamily: "Space Mono, monospace", fill: "#8a857c" }} allowDecimals={false} />
-                  <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e7e4df", fontFamily: "Archivo", fontSize: 12 }} formatter={(v) => [`${v}`, "Taps"]} />
+                  <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e7e4df", fontFamily: "Inter", fontSize: 12 }} formatter={(v) => [`${v}`, "Taps"]} />
                   <Line type="monotone" dataKey="count" stroke="#16140f" strokeWidth={2.5} dot={{ fill: "#e11900", strokeWidth: 0, r: 4 }} activeDot={{ r: 6, fill: "#e11900" }} />
                 </LineChart>
               </ResponsiveContainer>
