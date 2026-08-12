@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LOGO_SRC } from "@/components/brand";
+import { LiveStats } from "@/components/LiveStats";
 
 export default function LandingPage() {
   return (
@@ -50,6 +51,7 @@ export default function LandingPage() {
               Sign In
             </Link>
           </div>
+          <LiveStats />
         </div>
         <div className="flex-1 flex items-center justify-center w-full">
           <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
