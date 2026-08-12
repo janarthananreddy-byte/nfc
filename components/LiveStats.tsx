@@ -20,9 +20,9 @@ export function LiveStats() {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-8 max-w-md">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {items.map((it) => (
-        <div key={it.label} className="bg-white rounded-2xl border border-nfc-border p-4 text-center">
+        <div key={it.label} className="bg-white rounded-2xl border border-nfc-border p-6 text-center">
           <p className="text-2xl font-extrabold text-nfc-dark">{it.value == null ? "—" : it.value.toLocaleString()}</p>
           <p className="text-[10px] sm:text-xs font-bold text-nfc-muted uppercase tracking-widest mt-1" style={{ fontFamily: "Space Mono, monospace" }}>{it.label}</p>
         </div>
