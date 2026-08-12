@@ -6,7 +6,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-nfc-outer">
       <style>{`@keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}@keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(225,25,0,0.35)}50%{box-shadow:0 0 0 20px rgba(225,25,0,0)}}`}</style>
       {/* Nav */}
-      <header className="bg-nfc-dark">
+      <header style={{ backgroundColor: "#012963" }}>
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={LOGO_SRC} alt="Emergency Call" className="w-9 h-9 object-contain" />
@@ -76,16 +76,38 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 pb-8">
-        <div className="bg-nfc-dark rounded-2xl p-5 text-center">
-          <p className="text-white/60 text-sm">
-            Admin?{" "}
-            <Link href="/admin" className="text-nfc-red font-semibold hover:underline">
-              Go to Admin Panel →
-            </Link>
-          </p>
+      {/* Footer */}
+      <footer style={{ backgroundColor: "#012963" }} className="text-white mt-8">
+        <div className="max-w-6xl mx-auto px-4 py-14">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <img src={LOGO_SRC} alt="Emergency Call" className="w-10 h-10 object-contain" />
+                <span className="font-extrabold text-xl tracking-tight">Emergency<span className="text-nfc-red"> Call</span></span>
+              </div>
+              <p className="text-sm text-white/60 leading-relaxed max-w-xs">Scan-to-help NFC emergency ID cards. Your critical info, one tap away — no app needed.</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-xs mb-4 uppercase tracking-widest text-white/70" style={{ fontFamily: "Space Mono, monospace" }}>Quick Links</h4>
+              <ul className="space-y-2.5 text-sm text-white/70">
+                <li><Link href="/signup" className="hover:text-white transition-colors">Create Your Card</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Sign In</Link></li>
+                <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+                <li><Link href="/admin" className="hover:text-white transition-colors">Admin Panel</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-xs mb-4 uppercase tracking-widest text-white/70" style={{ fontFamily: "Space Mono, monospace" }}>Get in Touch</h4>
+              <p className="text-sm text-white/70 mb-1">Karthi, Tamilnadu</p>
+              <a href="mailto:skydio2@outlook.com" className="text-sm text-nfc-red hover:underline">skydio2@outlook.com</a>
+            </div>
+          </div>
+          <div className="border-t border-white/15 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-xs text-white/50">© 2026 Emergency Call. All rights reserved.</p>
+            <p className="text-xs text-white/50">Built for cyclist safety.</p>
+          </div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }
