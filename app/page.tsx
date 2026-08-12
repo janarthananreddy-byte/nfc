@@ -10,7 +10,6 @@ export default function LandingPage() {
       <header style={{ backgroundColor: "#012963" }}>
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src={LOGO_SRC} alt="Emergency Call" className="w-9 h-9 object-contain" />
             <span className="font-extrabold text-white text-lg tracking-tight">
               Emergency<span className="text-nfc-red"> Call</span>
             </span>
