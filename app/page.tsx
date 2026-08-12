@@ -38,9 +38,14 @@ export default function LandingPage() {
             <span className="text-nfc-red">one tap away</span>
           </h1>
           <p className="text-lg text-nfc-muted leading-relaxed mb-8">
-            Create your NFC Emergency ID card. Attach the smart tag to your Car, Bike, Bag, Helmet (or) anywhere you paste the sticker
-            In an emergency, first responders can scan it instantly to see your blood type,
-            emergency contacts, and medical info — no app needed.
+            Your Emergency Information. One Tap Away.
+
+Create your NFC Emergency ID and attach it to your car, bike, helmet, bag, or anywhere you need it.
+
+In an emergency, first responders can simply tap the NFC tag to instantly view your blood type, emergency contacts, and important medical information.
+
+Tap. Scan. Get Help Faster.
+No app required.
           </p>
           <div className="flex gap-3 flex-wrap">
             <Link href="/signup" className="px-6 py-3 bg-nfc-red text-white font-bold rounded-xl hover:bg-red-700 transition-colors text-sm">
