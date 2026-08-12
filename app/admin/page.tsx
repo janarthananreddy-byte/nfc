@@ -74,7 +74,7 @@ export default function AdminDashboard() {
                 <XAxis dataKey="date" tick={{ fontSize: 11, fontFamily: "Space Mono, monospace", fill: "#8a857c" }} />
                 <YAxis tick={{ fontSize: 11, fontFamily: "Space Mono, monospace", fill: "#8a857c" }} allowDecimals={false} />
                 <Tooltip
-                  contentStyle={{ borderRadius: 12, border: "1px solid #e7e4df", fontFamily: "Archivo, sans-serif", fontSize: 13 }}
+                  contentStyle={{ borderRadius: 12, border: "1px solid #e7e4df", fontFamily: "Inter, sans-serif", fontSize: 13 }}
                   formatter={(v) => [`${v} taps`, "Scans"]}
                 />
                 <Bar dataKey="count" fill="#e11900" radius={[6, 6, 0, 0]} maxBarSize={48} />
