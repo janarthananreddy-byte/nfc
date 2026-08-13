@@ -44,7 +44,7 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { userId, action } = await req.json();
+  const { userId, action, role } = await req.json();
 
   if (action === "toggleTag") {
     const tag = await prisma.nfcTag.findUnique({ where: { userId } });
@@ -77,6 +77,23 @@ export async function PATCH(req: Request) {
       details: `Deleted account ${u?.email || userId}`,
     });
     return NextResponse.json({ success: true });
+  }
+
+  if (action === "setRole") {
+    const next = ["user", "agent", "admin"].includes(role) ? role : null;
+    if (!next) return NextResponse.json({ error: "Invalid role" }, { status: 400 });
+    const u = await prisma.user.findUnique({ where: { id: userId }, select: { email: true, role: true } });
+    if (!u) return NextResponse.json({ error: "User not found" }, { status: 404 });
+    await prisma.user.update({ where: { id: userId }, data: { role: next } });
+    await logAudit({
+      actorEmail: session.user.email || "",
+      action: "user_role_changed",
+      targetType: "user",
+      targetId: userId,
+      targetLabel: u.email || userId,
+      details: `Role: "${u.role}" → "${next}"`,
+    });
+    return NextResponse.json({ success: true, role: next });
   }
 
   return NextResponse.json({ error: "Unknown action" }, { status: 400 });

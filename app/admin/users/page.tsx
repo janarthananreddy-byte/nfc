@@ -45,6 +45,17 @@ export default function AdminUsersPage() {
     setActionLoading(null);
   }
 
+  async function setRole(userId: string, role: string) {
+    setActionLoading(userId);
+    await fetch("/api/admin/users", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, action: "setRole", role }),
+    });
+    load(page);
+    setActionLoading(null);
+  }
+
   async function deleteUser(userId: string, email: string) {
     if (!confirm(`Delete user ${email}? This cannot be undone.`)) return;
     setActionLoading(userId);
@@ -75,15 +86,16 @@ export default function AdminUsersPage() {
                 <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Blood</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Taps</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Tag</th>
+                <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Role</th>
                 <th className="text-left px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Joined</th>
                 <th className="text-right px-4 py-3 text-xs font-bold text-nfc-muted uppercase tracking-widest" style={{ fontFamily: "Space Mono, monospace" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6} className="text-center py-12 text-nfc-muted text-sm">Loading…</td></tr>
+                <tr><td colSpan={7} className="text-center py-12 text-nfc-muted text-sm">Loading…</td></tr>
               ) : users.length === 0 ? (
-                <tr><td colSpan={6} className="text-center py-12 text-nfc-muted text-sm">No users found</td></tr>
+                <tr><td colSpan={7} className="text-center py-12 text-nfc-muted text-sm">No users found</td></tr>
               ) : (
                 users.map((u) => (
                   <tr key={u.id} className="border-b border-nfc-border/50 hover:bg-nfc-bg/50 transition-colors">
@@ -116,6 +128,18 @@ export default function AdminUsersPage() {
                           {u.nfcTag.isActive ? "ACTIVE" : "DISABLED"}
                         </span>
                       ) : <span className="text-nfc-subtle text-xs">No tag</span>}
+                    </td>
+                    <td className="px-4 py-3">
+                      <select
+                        value={u.role}
+                        disabled={actionLoading === u.id}
+                        onChange={(e) => setRole(u.id, e.target.value)}
+                        className="px-2 py-1 rounded-lg border border-nfc-border bg-white text-xs font-bold text-nfc-dark disabled:opacity-50"
+                      >
+                        <option value="user">User</option>
+                        <option value="agent">Agent</option>
+                        <option value="admin">Admin</option>
+                      </select>
                     </td>
                     <td className="px-4 py-3 text-xs text-nfc-muted">
                       {new Date(u.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
